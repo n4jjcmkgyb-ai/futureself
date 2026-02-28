@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Future Self — 遇见未来的你</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Serif+SC:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/*═══════════════════════════════════════════════════════════
+  FUTURE SELF v3 — Moonlight Pearl
+  Pearlescent whites · muted lavender-pink · gold accents
+  Sacred, joyful, healing
+═══════════════════════════════════════════════════════════*/
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  /* ── Pearl Palette ── */
+  --pearl:#FEFCFA;
+  --pearl-warm:#FDF8F3;
+  --pearl-blush:#F9F0F0;
+  --pearl-lav:#F3EEF6;
+  --gold:#C9A24D;
+  --gold-light:#E0C87E;
+  --gold-soft:rgba(201,162,77,0.12);
+  --gold-glow:rgba(201,162,77,0.18);
+  --lav:#B4A0CC;
+  --lav-light:#D1C3E3;
+  --lav-soft:rgba(180,160,204,0.10);
+  --lav-glow:rgba(180,160,204,0.15);
+  --blush:#D4B0B8;
+  --blush-soft:rgba(212,176,184,0.10);
+  /* ── Functional ── */
+  --bg:#FEFCFA;
+  --bg-card:rgba(255,255,255,0.75);
+  --bg-glass:rgba(255,255,255,0.55);
+  --bg-glass2:rgba(255,255,255,0.70);
+  --text:#3D2E4A;
+  --text-2:#6B5A78;
+  --text-3:#9B8DA8;
+  --border:rgba(180,160,204,0.15);
+  --grad:linear-gradient(135deg,var(--gold),var(--lav));
+  --grad-soft:linear-gradient(135deg,var(--gold-soft),var(--lav-soft));
+  --grad-text:linear-gradient(135deg,var(--gold),var(--lav));
+  --shadow:0 4px 24px rgba(61,46,74,0.06);
+  --shadow-lg:0 12px 40px rgba(61,46,74,0.08);
+  --r:16px;--rl:24px;
+}
+
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:'Noto Serif SC','Songti SC',serif;
+  background:var(--bg);color:var(--text);
+  overflow-x:hidden;min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── Background ── */
+#bg{
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 25% 20%,rgba(201,162,77,0.05),transparent),
+    radial-gradient(ellipse 60% 70% at 75% 75%,rgba(180,160,204,0.06),transparent),
+    radial-gradient(ellipse 50% 40% at 50% 50%,rgba(212,176,184,0.04),transparent),
+    linear-gradient(180deg,var(--pearl) 0%,var(--pearl-lav) 50%,var(--pearl-blush) 100%);
+}
+#bg::after{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='80' height='80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='0.6' fill='rgba(201,162,77,0.12)'/%3E%3C/svg%3E");
+}
+
+.particles{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.particle{position:absolute;border-radius:50%;opacity:0;animation:pF linear infinite}
+.particle.g{background:var(--gold)}.particle.l{background:var(--lav)}
+@keyframes pF{0%{opacity:0;transform:translateY(100vh) scale(0)}15%{opacity:.35}85%{opacity:.15}100%{opacity:0;transform:translateY(-10vh) scale(1)}}
+
+/* ── Shared ── */
+#app{position:relative;z-index:10;min-height:100vh}
+.screen{display:none;min-height:100vh;position:relative}
+.screen.active{display:flex;flex-direction:column;animation:sIn .8s cubic-bezier(.22,1,.36,1) forwards}
+.screen.leaving{animation:sOut .5s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes sIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes sOut{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-24px)}}
+
+.gt{background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.glass{background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--r)}
+.glass2{background:var(--bg-glass2);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--r)}
+
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.8rem;
+  border:none;border-radius:100px;font-family:'Noto Serif SC',serif;font-size:.88rem;
+  cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1);letter-spacing:.06em;
+}
+.btn-p{background:var(--grad);color:#fff;box-shadow:0 4px 16px var(--gold-glow),0 4px 16px var(--lav-glow)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 24px var(--gold-glow),0 8px 24px var(--lav-glow)}
+.btn-g{background:var(--bg-glass);border:1px solid var(--border);color:var(--text-2)}
+.btn-g:hover{border-color:var(--gold);color:var(--text);background:var(--gold-soft)}
+.btn:disabled{opacity:.3;cursor:not-allowed;transform:none!important}
+
+/* ═══════════ WELCOME ═══════════ */
+.welcome{align-items:center;justify-content:center;padding:2rem;text-align:center}
+.welcome-orb{
+  width:150px;height:150px;border-radius:50%;position:relative;margin:0 auto 2.5rem;
+  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.95),var(--gold-light) 45%,var(--lav-light) 80%,transparent);
+  animation:oP 4s ease-in-out infinite;
+  box-shadow:0 0 50px var(--gold-glow),0 0 80px var(--lav-glow),inset 0 0 30px rgba(255,255,255,.6);
+}
+.welcome-orb::before{content:'';position:absolute;inset:-25px;border-radius:50%;border:1px solid rgba(201,162,77,.12);animation:ring 8s linear infinite}
+.welcome-orb::after{content:'';position:absolute;inset:-48px;border-radius:50%;border:1px solid rgba(180,160,204,.08);animation:ring 12s linear infinite reverse}
+@keyframes oP{0%,100%{transform:scale(1)}50%{transform:scale(1.05);box-shadow:0 0 70px var(--gold-glow),0 0 110px var(--lav-glow)}}
+@keyframes ring{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+.welcome h1{font-family:'Playfair Display','Noto Serif SC',serif;font-size:clamp(2.2rem,5.5vw,3.4rem);font-weight:300;letter-spacing:.12em;margin-bottom:.4rem}
+.welcome-sub{font-size:1rem;font-weight:200;color:var(--text-2);letter-spacing:.35em;margin-bottom:.8rem}
+.welcome-desc{font-size:.88rem;color:var(--text-3);max-width:360px;line-height:2;margin:0 auto 2.5rem;font-weight:300}
+
+/* ═══════════ UPLOAD ═══════════ */
+.upload{align-items:center;justify-content:center;padding:2rem;text-align:center}
+.upload-title{font-size:1.3rem;font-weight:300;margin-bottom:.4rem}
+.upload-hint{font-size:.82rem;color:var(--text-3);margin-bottom:2rem;font-weight:200}
+.upload-zone{
+  width:220px;height:220px;border-radius:50%;position:relative;margin:0 auto 1.5rem;
+  border:2px dashed rgba(201,162,77,.25);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.6rem;
+  transition:all .4s;overflow:hidden;background:radial-gradient(circle,var(--gold-soft),transparent);
+}
+.upload-zone:hover{border-color:var(--gold);box-shadow:0 0 30px var(--gold-glow)}
+.upload-zone.has-img{border-style:solid;border-color:var(--gold)}
+.upload-zone img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:50%}
+.upload-icon{font-size:2rem;opacity:.35;color:var(--gold)}.upload-label{font-size:.82rem;color:var(--text-3)}
+.upload-zone.has-img .upload-icon,.upload-zone.has-img .upload-label{display:none}
+#photoInput{display:none}
+
+.style-section{margin-top:1.5rem;max-width:380px;width:100%}
+.style-label{font-size:.78rem;color:var(--text-3);letter-spacing:.12em;margin-bottom:.6rem;text-align:left}
+.style-grid{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.style-chip{
+  padding:.45rem 1rem;border-radius:100px;font-size:.8rem;
+  background:var(--bg-glass);border:1px solid var(--border);
+  color:var(--text-2);cursor:pointer;transition:all .3s;font-family:'Noto Serif SC',serif;
+}
+.style-chip:hover{border-color:var(--gold);color:var(--text)}
+.style-chip.sel{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 2px 10px var(--gold-glow)}
+.upload-actions{display:flex;gap:.8rem;justify-content:center;margin-top:1.2rem}
+
+/* ═══════════ QUESTIONNAIRE ═══════════ */
+.quest{padding:0;min-height:100vh}
+.quest-wrap{display:flex;flex-direction:column;min-height:100vh;max-width:620px;margin:0 auto;padding:1.5rem 1.5rem}
+
+.quest-head{text-align:center;margin-bottom:1.2rem;padding-top:.5rem}
+.quest-cat{display:inline-block;padding:.25rem .8rem;border-radius:100px;font-size:.7rem;letter-spacing:.18em;margin-bottom:.6rem}
+.quest-cat.inner{background:rgba(180,160,204,.1);color:var(--lav);border:1px solid rgba(180,160,204,.18)}
+.quest-cat.outer{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(201,162,77,.15)}
+.quest-step{font-size:.78rem;color:var(--text-3);letter-spacing:.18em}
+.quest-bar{width:100%;height:2px;background:rgba(180,160,204,.12);border-radius:2px;margin-top:.6rem;overflow:hidden}
+.quest-fill{height:100%;background:var(--grad);border-radius:2px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+
+.quest-body{flex:1;display:flex;flex-direction:column;justify-content:center}
+.qc{display:none;animation:cI .5s cubic-bezier(.22,1,.36,1) forwards}
+.qc.active{display:block}.qc.leaving{animation:cO .35s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes cI{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+@keyframes cO{from{opacity:1;transform:none}to{opacity:0;transform:translateX(-30px)}}
+
+.qc-icon{
+  width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;margin-bottom:1rem;background:var(--grad-soft);border:1px solid var(--border);
+}
+.qc-dim{font-size:.72rem;letter-spacing:.18em;color:var(--text-3);margin-bottom:.5rem}
+.qc-q{font-size:1.15rem;font-weight:300;line-height:1.9;margin-bottom:1.3rem}
+
+.og{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:.8rem}
+.o{
+  padding:.45rem .95rem;border-radius:100px;font-size:.8rem;
+  background:var(--bg-glass);border:1px solid var(--border);
+  color:var(--text-2);cursor:pointer;transition:all .3s;
+  font-family:'Noto Serif SC',serif;user-select:none;
+}
+.o:hover{border-color:var(--gold);color:var(--text)}
+.o.sel{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 2px 8px var(--gold-glow)}
+
+.qc-extra{margin-top:.5rem}
+.qc-extra-l{font-size:.75rem;color:var(--text-3);margin-bottom:.3rem;font-weight:200}
+.qc-in{
+  width:100%;padding:.7rem .9rem;border-radius:var(--r);font-size:.85rem;
+  background:var(--bg-glass);border:1px solid var(--border);
+  color:var(--text);font-family:'Noto Serif SC',serif;outline:none;
+  transition:all .3s;resize:none;min-height:64px;line-height:1.7;
+}
+.qc-in:focus{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-glow)}
+.qc-in::placeholder{color:var(--text-3);font-weight:200}
+
+.quest-nav{display:flex;justify-content:space-between;padding:1.2rem 0;margin-top:auto}
+
+/* ═══════════ GENERATING ═══════════ */
+.gen{align-items:center;justify-content:center;padding:2rem;text-align:center}
+.gen-vis{width:220px;height:280px;position:relative;margin:0 auto 1.8rem;overflow:visible}
+.gen-vis-inner{position:absolute;inset:0;overflow:visible}
+.gen-particles{position:absolute;inset:0;overflow:visible}
+/* Silhouette SVG — fades in and glows */
+.gen-sil{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.gen-sil svg{width:120px;height:200px;opacity:0;filter:drop-shadow(0 0 18px var(--gold-glow)) drop-shadow(0 0 30px var(--lav-glow));animation:silReveal 3s ease forwards .5s}
+@keyframes silReveal{0%{opacity:0;filter:drop-shadow(0 0 40px var(--gold-glow)) blur(8px);transform:scale(.85)}40%{opacity:.6;filter:drop-shadow(0 0 24px var(--gold-glow)) blur(3px);transform:scale(.98)}100%{opacity:.85;filter:drop-shadow(0 0 18px var(--gold-glow)) drop-shadow(0 0 30px var(--lav-glow)) blur(0px);transform:scale(1)}}
+/* Orbiting energy rings */
+.gen-ring{position:absolute;border-radius:50%;border:1px solid;opacity:0;animation:ringPulse 3.5s ease-in-out infinite}
+.gen-ring.r1{width:160px;height:160px;top:50%;left:50%;margin:-80px 0 0 -80px;border-color:var(--gold-light);animation-delay:0s;opacity:0;animation:ringReveal 1.2s ease forwards .3s, ringOrbit 6s linear infinite 1.5s}
+.gen-ring.r2{width:210px;height:210px;top:50%;left:50%;margin:-105px 0 0 -105px;border-color:var(--lav-light);animation:ringReveal 1.2s ease forwards .6s, ringOrbit 8s linear infinite reverse 1.8s}
+.gen-ring.r3{width:260px;height:260px;top:50%;left:50%;margin:-130px 0 0 -130px;border-color:rgba(201,162,77,.15);animation:ringReveal 1.2s ease forwards .9s, ringOrbit 10s linear infinite 2.1s}
+@keyframes ringReveal{from{opacity:0;transform:scale(.6) rotate(0deg)}to{opacity:1;transform:scale(1) rotate(0deg)}}
+@keyframes ringOrbit{from{transform:rotate(0deg) scaleY(.35)}to{transform:rotate(360deg) scaleY(.35)}}
+/* Floating particles converging toward center */
+.sp{position:absolute;border-radius:50%;opacity:0}
+.sp.g{background:var(--gold);box-shadow:0 0 4px var(--gold-glow)}.sp.l{background:var(--lav-light);box-shadow:0 0 4px var(--lav-glow)}
+.sp.converge{animation:spConverge ease-in-out forwards}
+.sp.orbit{animation:spOrbit linear infinite}
+@keyframes spConverge{
+  0%{opacity:0;transform:translate(var(--sx),var(--sy)) scale(0)}
+  50%{opacity:.7;transform:translate(calc(var(--ex)*0.3),calc(var(--ey)*0.3)) scale(1.3)}
+  85%{opacity:.5;transform:translate(var(--ex),var(--ey)) scale(1)}
+  100%{opacity:0;transform:translate(var(--ex),var(--ey)) scale(0)}
+}
+@keyframes spOrbit{
+  0%{opacity:.4;transform:rotate(0deg) translateX(var(--radius)) rotate(0deg) scale(1)}
+  50%{opacity:.7;transform:rotate(180deg) translateX(var(--radius)) rotate(-180deg) scale(1.2)}
+  100%{opacity:.4;transform:rotate(360deg) translateX(var(--radius)) rotate(-360deg) scale(1)}
+}
+/* Center glow pulse */
+.gen-core{position:absolute;top:50%;left:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.4) 0%,var(--gold-light) 40%,transparent 70%);opacity:0;animation:coreGlow 2.5s ease-in-out infinite .8s;filter:blur(6px)}
+@keyframes coreGlow{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:.7;transform:scale(1.2)}}
+.gen-title{font-size:1.2rem;font-weight:200;letter-spacing:.08em;margin-bottom:1.2rem}
+.gen-kw{display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem;max-width:360px;margin:0 auto}
+.kw{
+  padding:.25rem .7rem;border-radius:100px;font-size:.75rem;
+  background:var(--bg-glass);border:1px solid var(--border);
+  color:var(--text-3);opacity:0;animation:kwI .5s ease forwards;
+}
+@keyframes kwI{from{opacity:0;transform:translateY(6px) scale(.9)}to{opacity:1;transform:none}}
+
+/* ═══════════ CHARACTER CARD ═══════════ */
+.reveal{align-items:center;justify-content:center;padding:2rem}
+.char-card{
+  width:330px;max-width:90vw;border-radius:var(--rl);overflow:hidden;position:relative;
+  background:var(--bg-card);backdrop-filter:blur(30px);border:1px solid var(--border);
+  box-shadow:var(--shadow-lg),0 0 50px var(--gold-glow),0 0 50px var(--lav-glow);
+  animation:cPop 1s cubic-bezier(.22,1,.36,1) forwards;
+}
+@keyframes cPop{from{opacity:0;transform:scale(.92) translateY(16px)}to{opacity:1;transform:none}}
+.card-glow{
+  position:absolute;inset:-2px;border-radius:26px;z-index:-1;
+  background:linear-gradient(135deg,var(--gold-light),var(--lav-light),var(--gold-light));
+  background-size:200% 200%;animation:glR 4s ease-in-out infinite;filter:blur(1px);opacity:.5;
+}
+@keyframes glR{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+
+.card-av{
+  height:200px;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,var(--pearl-lav),var(--pearl-blush));
+  display:flex;align-items:center;justify-content:center;
+}
+.card-av img{width:100%;height:100%;object-fit:cover}
+.css-av{position:relative}
+.av-circle{
+  width:90px;height:90px;border-radius:50%;background:var(--av-grad,var(--grad));position:relative;
+  box-shadow:0 0 40px var(--av-glow1,var(--gold-glow)),0 0 40px var(--av-glow2,var(--lav-glow));
+}
+.av-circle::before{content:'';position:absolute;inset:15%;border-radius:50%;background:rgba(255,255,255,.3)}
+.av-aura{position:absolute;inset:-35px;border-radius:50%;background:radial-gradient(circle,var(--gold-glow),transparent 60%);animation:au 3s ease-in-out infinite}
+@keyframes au{0%,100%{transform:scale(1);opacity:.3}50%{transform:scale(1.15);opacity:.5}}
+
+.card-info{padding:1.3rem 1.5rem 1.5rem;text-align:center}
+.card-ni{
+  font-family:'Playfair Display','Noto Serif SC',serif;font-size:1.4rem;font-weight:300;
+  text-align:center;border:none;background:transparent;color:var(--text);outline:none;
+  width:100%;border-bottom:1px dashed var(--border);padding-bottom:.25rem;margin-bottom:.2rem;letter-spacing:.06em;
+}
+.card-ni::placeholder{color:var(--text-3);font-weight:200}
+.card-hint{font-size:.68rem;color:var(--text-3);margin-bottom:.8rem;font-weight:200}
+.card-vibe{
+  display:inline-block;padding:.22rem .8rem;border-radius:100px;font-size:.72rem;
+  background:var(--grad-soft);border:1px solid var(--border);color:var(--text-2);letter-spacing:.1em;margin-bottom:.8rem;
+}
+.card-traits{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem;margin-bottom:1.1rem}
+.card-t{padding:.18rem .55rem;border-radius:100px;font-size:.7rem;background:var(--bg-glass);border:1px solid var(--border);color:var(--text-3)}
+
+/* ═══════════ CHAT ═══════════ */
+.chat-screen{min-height:100vh}
+.chat-layout{display:flex;min-height:100vh;max-width:1060px;margin:0 auto}
+
+.chat-side{
+  width:240px;padding:1.3rem 1rem;display:flex;flex-direction:column;align-items:center;gap:.8rem;
+  border-right:1px solid var(--border);flex-shrink:0;
+}
+.sc{width:100%;padding:1rem;border-radius:var(--r);text-align:center}
+.s-av{
+  width:58px;height:58px;border-radius:50%;margin:0 auto .7rem;position:relative;
+  background:var(--grad);box-shadow:0 0 16px var(--gold-glow),0 0 16px var(--lav-glow);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.s-av img{width:100%;height:100%;object-fit:cover}
+.s-av-d{width:22px;height:26px;border-radius:50%;background:rgba(255,255,255,.5)}
+.s-av::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1px solid var(--gold);opacity:.25;animation:au 3s ease-in-out infinite}
+.s-name{font-family:'Playfair Display','Noto Serif SC',serif;font-size:1rem;font-weight:300;margin-bottom:.15rem}
+.s-label{font-size:.68rem;color:var(--text-3);letter-spacing:.12em;font-weight:200}
+.s-title{font-size:.68rem;letter-spacing:.18em;color:var(--text-3);text-align:left;width:100%;margin-top:.4rem}
+
+.bt{width:100%;padding:.7rem;border-radius:var(--r);font-size:.75rem;max-height:220px;overflow-y:auto}
+.bi{display:flex;align-items:flex-start;gap:.35rem;padding:.25rem 0;color:var(--text-2);line-height:1.5}
+.bd{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.bd.a{background:var(--gold);box-shadow:0 0 4px var(--gold-glow)}
+.bd.d{background:var(--text-3);opacity:.3}
+.b-src{font-size:.65rem;color:var(--text-3);margin-left:9px;margin-top:1px;line-height:1.4}
+.b-book{font-size:.62rem;color:var(--lav);margin-left:9px;margin-top:2px;font-style:italic}
+.b-impact{
+  font-size:.65rem;color:var(--gold);margin-left:9px;margin-top:2px;
+  padding:2px 5px;background:var(--gold-soft);border-radius:3px;display:inline-block;
+}
+
+.chat-main{flex:1;display:flex;flex-direction:column;min-width:0}
+.ch{padding:.8rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ch-t{font-size:.8rem;color:var(--text-2);font-weight:300}
+.bb{
+  display:none;align-items:center;gap:.3rem;padding:.22rem .6rem;border-radius:100px;
+  background:var(--grad-soft);border:1px solid var(--border);font-size:.7rem;color:var(--gold);
+  animation:bP 2s ease-in-out infinite;
+}
+.bb.vis{display:inline-flex;animation:bbIn .5s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes bbIn{from{opacity:0;transform:scale(.85) translateY(3px)}to{opacity:1;transform:none}}
+@keyframes bP{0%,100%{box-shadow:0 0 0 0 var(--gold-glow)}50%{box-shadow:0 0 0 5px transparent}}
+.bb-d{width:4px;height:4px;border-radius:50%;background:var(--gold)}
+
+.cm{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.7rem}
+.m{display:flex;gap:.5rem;max-width:80%;animation:mI .5s cubic-bezier(.22,1,.36,1) forwards;opacity:0}
+@keyframes mI{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.m.bot{align-self:flex-start}.m.user{align-self:flex-end;flex-direction:row-reverse}
+
+.ma{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ma.ba{background:var(--grad);box-shadow:0 1px 6px var(--gold-glow)}
+.ma.ba img{width:100%;height:100%;object-fit:cover}
+.ma-d{width:11px;height:13px;border-radius:50%;background:rgba(255,255,255,.55)}
+.ma.ua{background:var(--pearl-lav);border:1px solid var(--border)}
+.ma.ua::after{content:'';width:11px;height:13px;border-radius:50%;background:var(--lav-soft)}
+
+.mb{padding:.65rem .9rem;border-radius:var(--r);line-height:1.8;font-size:.85rem;font-weight:300}
+.m.bot .mb{background:var(--bg-glass2);border:1px solid var(--border);border-bottom-left-radius:4px}
+.m.user .mb{background:var(--grad);color:#fff;border-bottom-right-radius:4px}
+
+.hl{display:inline;background:var(--gold-soft);border-radius:3px;padding:.03rem .2rem;border-bottom:1px dashed var(--gold)}
+
+.tp{display:flex;gap:3px;padding:.65rem .9rem}
+.td{width:5px;height:5px;border-radius:50%;background:var(--text-3);animation:tB 1.2s ease-in-out infinite}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes tB{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-4px);opacity:.7}}
+
+.ci-area{padding:.7rem 1rem 1rem;border-top:1px solid var(--border);flex-shrink:0;background:var(--pearl)}
+.ci-wrap{display:flex;gap:.5rem;align-items:flex-end}
+.ci{
+  flex:1;padding:.6rem .9rem;border-radius:var(--r);font-size:.85rem;
+  background:var(--bg-glass);border:1px solid var(--border);
+  color:var(--text);font-family:'Noto Serif SC',serif;outline:none;
+  transition:all .3s;resize:none;min-height:40px;max-height:96px;line-height:1.6;
+}
+.ci:focus{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-glow)}
+.ci::placeholder{color:var(--text-3);font-weight:200}
+.bs{
+  width:40px;height:40px;border-radius:50%;border:none;
+  background:var(--grad);color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:all .3s;box-shadow:0 2px 8px var(--gold-glow);
+}
+.bs:hover{transform:scale(1.05)}.bs svg{width:15px;height:15px}
+
+/* ═══════════ SEDONA RELEASE ═══════════ */
+.release{align-items:center;justify-content:center;padding:2rem;text-align:center}
+.rel-c{max-width:460px;width:100%}
+.rel-icon{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 1.5rem;
+  background:var(--grad);display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;box-shadow:0 0 30px var(--gold-glow),0 0 30px var(--lav-glow);animation:oP 4s ease-in-out infinite;
+}
+.rel-title{font-size:1.2rem;font-weight:300;margin-bottom:.4rem}
+.rel-sub{font-size:.82rem;color:var(--text-3);margin-bottom:1.5rem;font-weight:200}
+.rel-belief{
+  padding:.8rem 1.2rem;border-radius:var(--r);margin-bottom:1.5rem;
+  background:var(--gold-soft);border:1px solid rgba(201,162,77,.12);
+  font-size:.9rem;line-height:1.8;color:var(--gold);font-weight:300;
+}
+
+.rel-steps{text-align:left;margin-bottom:1.5rem}
+.rs{padding:1rem 1.2rem;margin-bottom:.5rem;border-radius:var(--r);transition:all .5s;cursor:pointer}
+.rs.glass{opacity:.45}
+.rs.act{opacity:1;background:var(--bg-glass2);border:1px solid rgba(201,162,77,.1);box-shadow:0 0 16px var(--gold-glow)}
+.rs.done{opacity:.3}
+.rs-num{font-size:.68rem;letter-spacing:.12em;color:var(--text-3);margin-bottom:.3rem;display:flex;align-items:center;gap:.3rem}
+.rs-num .dot{width:4px;height:4px;border-radius:50%;background:var(--gold)}
+.rs-t{font-size:.9rem;font-weight:400;margin-bottom:.3rem}
+.rs-p{font-size:.83rem;color:var(--text-2);font-weight:200;line-height:1.7}
+.rs-r{
+  margin-top:.6rem;padding:.5rem .7rem;border-radius:10px;
+  background:var(--lav-soft);border:1px solid rgba(180,160,204,.1);
+  font-size:.82rem;color:var(--lav);font-weight:200;line-height:1.6;display:none;
+}
+.rs.act .rs-r{display:block}
+.rel-nav{display:flex;gap:.8rem;justify-content:center;margin-top:1.2rem}
+
+/* ═══════════ ENCOURAGEMENT — Card Draw ═══════════ */
+.enc{align-items:center;justify-content:center;padding:1.5rem;text-align:center}
+.enc-c{max-width:460px;width:100%;position:relative}
+
+/* Draw prompt */
+.enc-draw{position:relative;z-index:1}
+.enc-draw-label{font-size:.72rem;letter-spacing:.22em;color:var(--text-3);margin-bottom:1.2rem;font-weight:200}
+.enc-deck{
+  position:relative;width:200px;height:280px;margin:0 auto 1.5rem;cursor:pointer;
+  perspective:800px;
+}
+.enc-deck:hover .enc-card-back{transform:translateY(-6px);box-shadow:0 16px 50px var(--gold-glow),0 16px 50px var(--lav-glow)}
+.enc-card-back{
+  width:100%;height:100%;border-radius:var(--rl);position:relative;
+  background:var(--grad);
+  box-shadow:0 8px 36px var(--gold-glow),0 8px 36px var(--lav-glow);
+  transition:all .5s cubic-bezier(.22,1,.36,1);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.6rem;
+}
+.enc-card-back::before{
+  content:'';position:absolute;inset:8px;border-radius:18px;
+  border:1px solid rgba(255,255,255,.2);pointer-events:none;
+}
+.enc-card-back::after{
+  content:'';position:absolute;inset:0;border-radius:var(--rl);
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.15),transparent 60%);pointer-events:none;
+}
+.enc-back-icon{font-size:2.4rem;position:relative;z-index:1;animation:eStar 3s ease-in-out infinite}
+@keyframes eStar{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.1) rotate(8deg)}}
+.enc-back-text{font-size:.78rem;color:rgba(255,255,255,.75);letter-spacing:.18em;font-weight:200;position:relative;z-index:1}
+/* Stacked cards behind */
+.enc-deck-shadow{
+  position:absolute;border-radius:var(--rl);
+  background:linear-gradient(135deg,var(--gold-light),var(--lav-light));opacity:.2;
+}
+.enc-deck-shadow:nth-child(1){inset:6px -4px -6px 4px;transform:rotate(2deg)}
+.enc-deck-shadow:nth-child(2){inset:10px -8px -10px 8px;transform:rotate(4deg);opacity:.1}
+
+.enc-draw-hint{font-size:.75rem;color:var(--text-3);font-weight:200;animation:hintPulse 2s ease-in-out infinite}
+@keyframes hintPulse{0%,100%{opacity:.5}50%{opacity:1}}
+
+/* Flip animation */
+.enc-flip-wrap{
+  width:100%;perspective:1000px;display:none;
+}
+.enc-flip-wrap.active{display:block}
+.enc-flipper{
+  position:relative;width:100%;transition:transform .8s cubic-bezier(.22,1,.36,1);
+  transform-style:preserve-3d;
+}
+.enc-flipper.flipped{transform:rotateY(180deg)}
+
+/* Revealed card (front) */
+.enc-revealed{
+  padding:2rem 1.8rem;border-radius:var(--rl);position:relative;
+  background:var(--bg-glass2);backdrop-filter:blur(24px);
+  border:1px solid var(--border);box-shadow:var(--shadow-lg),0 0 40px var(--gold-glow);
+  backface-visibility:hidden;transform:rotateY(180deg);
+}
+.enc-quote-mark{font-size:2rem;line-height:1;color:var(--gold);opacity:.3;margin-bottom:.3rem}
+.enc-msg{font-size:.95rem;font-weight:300;line-height:2.2;color:var(--text)}
+.enc-quote-author{
+  margin-top:.8rem;font-size:.78rem;color:var(--lav);font-weight:300;letter-spacing:.08em;
+}
+.enc-divider{width:40px;height:1px;margin:1rem auto;background:var(--grad);opacity:.4}
+.enc-soul-msg{font-size:.88rem;font-weight:200;line-height:2;color:var(--text-2)}
+.enc-sign{
+  margin-top:.8rem;font-family:'Playfair Display','Noto Serif SC',serif;
+  font-size:.82rem;font-style:italic;color:var(--text-3);font-weight:300;
+}
+
+/* Belief selection */
+.enc-belief-section{margin-top:1.5rem;text-align:left}
+.enc-belief-title{font-size:.72rem;letter-spacing:.18em;color:var(--text-3);margin-bottom:.6rem;text-align:center}
+.enc-belief-opts{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;margin-bottom:.6rem}
+.enc-bo{
+  padding:.4rem .85rem;border-radius:100px;font-size:.78rem;
+  background:var(--bg-glass);border:1px solid var(--border);
+  color:var(--text-2);cursor:pointer;transition:all .3s;font-family:'Noto Serif SC',serif;
+}
+.enc-bo:hover{border-color:var(--gold);color:var(--text)}
+.enc-bo.sel{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 2px 8px var(--gold-glow)}
+.enc-custom-wrap{margin-top:.5rem;display:flex;gap:.4rem;align-items:center}
+.enc-custom-in{
+  flex:1;padding:.45rem .7rem;border-radius:100px;font-size:.78rem;
+  background:var(--bg-glass);border:1px solid var(--border);
+  color:var(--text);font-family:'Noto Serif SC',serif;outline:none;transition:all .3s;
+}
+.enc-custom-in:focus{border-color:var(--gold);box-shadow:0 0 0 2px var(--gold-glow)}
+.enc-custom-in::placeholder{color:var(--text-3);font-weight:200}
+.enc-custom-add{
+  width:32px;height:32px;border-radius:50%;border:1px solid var(--border);
+  background:var(--bg-glass);color:var(--gold);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;
+  transition:all .3s;flex-shrink:0;
+}
+.enc-custom-add:hover{background:var(--grad);color:#fff;border-color:transparent}
+.enc-chosen{
+  margin-top:.6rem;padding:.6rem .9rem;border-radius:var(--r);
+  background:var(--gold-soft);border:1px solid rgba(201,162,77,.1);
+  font-size:.82rem;line-height:1.8;color:var(--gold);font-weight:300;
+  text-align:center;display:none;
+}
+.enc-chosen::before{content:attr(data-prefix);font-size:.7rem;opacity:.7}
+
+.enc-date{font-size:.72rem;color:var(--text-3);margin-top:1.2rem;font-weight:200}
+.enc-actions{display:flex;gap:.8rem;justify-content:center;margin-top:1.2rem}
+.enc-released-count{font-size:.7rem;color:var(--text-3);margin-top:.8rem;text-align:center;font-weight:200;opacity:.7}
+
+/* Generation sub-message */
+.gen-sub{font-size:.82rem;color:var(--text-3);margin-top:.8rem;font-weight:200;min-height:1.4em;transition:opacity .5s;text-align:center;padding:0 1.5rem}
+
+/* Fade-in utility */
+.ef{opacity:0;animation:encFade .8s ease forwards}
+@keyframes encFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ═══════════ BREATHING ANIMATION — Release ═══════════ */
+.breath-guide{
+  width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;
+  background:radial-gradient(circle at 40% 40%,rgba(255,255,255,.5),var(--gold-light) 50%,var(--lav-light));
+  box-shadow:0 0 30px var(--gold-glow),0 0 30px var(--lav-glow);
+  display:none;position:relative;
+}
+.breath-guide.active{display:block;animation:breathe 6s ease-in-out infinite}
+.breath-label{
+  position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
+  font-size:.68rem;color:var(--text-3);letter-spacing:.12em;white-space:nowrap;
+  transition:opacity .4s;
+}
+@keyframes breathe{
+  0%,100%{transform:scale(.7);opacity:.4;box-shadow:0 0 20px var(--gold-glow)}
+  25%{transform:scale(1);opacity:.8;box-shadow:0 0 40px var(--gold-glow),0 0 50px var(--lav-glow)}
+  50%{transform:scale(1);opacity:.8}
+  75%{transform:scale(.7);opacity:.4}
+}
+
+/* ═══════════ CHAT TIMESTAMPS ═══════════ */
+.m-time{font-size:.62rem;color:var(--text-3);padding:0 .3rem;opacity:.5;margin-top:2px;font-weight:200}
+.m.user .m-time{text-align:right}
+
+/* ═══════════ CHAT — Quick Reply Buttons ═══════════ */
+.quick-replies{display:flex;flex-wrap:wrap;gap:.35rem;padding:.5rem 0;max-height:180px;overflow-y:auto;animation:mI .5s cubic-bezier(.22,1,.36,1) forwards;opacity:0;transition:opacity .35s,transform .35s}
+.quick-replies.fade-out{opacity:0!important;transform:translateY(-6px);pointer-events:none}
+.qr-btn{
+  padding:.4rem .85rem;border-radius:100px;font-size:.78rem;
+  background:var(--bg-glass);border:1px solid var(--border);
+  color:var(--text-2);cursor:pointer;transition:all .3s;font-family:'Noto Serif SC',serif;
+  max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.qr-btn:hover{border-color:var(--gold);color:var(--text);background:var(--gold-soft);transform:translateY(-1px);box-shadow:0 2px 8px rgba(201,162,77,.15)}
+.qr-btn:active{transform:scale(.96)}
+
+/* ═══════════ LANGUAGE TOGGLE ═══════════ */
+.lang-toggle{
+  position:fixed;top:1rem;left:1rem;z-index:100;
+  height:32px;border-radius:100px;border:1px solid var(--border);
+  background:var(--bg-glass);backdrop-filter:blur(12px);
+  cursor:pointer;display:flex;align-items:center;padding:0;
+  transition:all .35s;overflow:hidden;
+}
+.lang-opt{
+  padding:0 .65rem;height:100%;display:flex;align-items:center;
+  font-size:.7rem;letter-spacing:.06em;color:var(--text-3);
+  transition:all .3s;font-family:'Noto Serif SC',serif;border:none;background:none;cursor:pointer;
+}
+.lang-opt.active{color:#fff;background:var(--grad);border-radius:100px}
+@media(max-width:768px){.lang-toggle{top:.6rem;left:.6rem;height:28px}.lang-opt{font-size:.65rem;padding:0 .5rem}}
+
+/* ═══════════ MUSIC TOGGLE ═══════════ */
+.music-toggle{
+  position:fixed;top:1rem;right:1rem;z-index:100;
+  width:38px;height:38px;border-radius:50%;border:1px solid var(--border);
+  background:var(--bg-glass);backdrop-filter:blur(12px);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .35s;color:var(--text-3);font-size:.9rem;
+}
+.music-toggle:hover{border-color:var(--gold);color:var(--gold);box-shadow:0 0 12px var(--gold-glow)}
+.music-toggle.playing{color:var(--gold);border-color:var(--gold)}
+.music-toggle .bar{display:inline-block;width:2px;background:currentColor;margin:0 1px;border-radius:1px;vertical-align:middle}
+.music-toggle.playing .bar{animation:musicBar .6s ease-in-out infinite alternate}
+.music-toggle .bar:nth-child(1){height:8px;animation-delay:0s}
+.music-toggle .bar:nth-child(2){height:12px;animation-delay:.15s}
+.music-toggle .bar:nth-child(3){height:6px;animation-delay:.3s}
+.music-toggle .bar:nth-child(4){height:10px;animation-delay:.1s}
+@keyframes musicBar{0%{height:3px}100%{height:12px}}
+
+/* ═══════════ WELCOME — shimmer text ═══════════ */
+.shimmer{
+  background:linear-gradient(90deg,var(--text) 0%,var(--gold) 30%,var(--lav) 50%,var(--gold) 70%,var(--text) 100%);
+  background-size:300% 100%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmerText 4s ease-in-out infinite;
+}
+@keyframes shimmerText{0%{background-position:100% 0}100%{background-position:-100% 0}}
+
+/* ═══════════ SCREEN PROGRESS DOTS ═══════════ */
+.flow-dots{
+  position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:100;
+  display:flex;gap:.5rem;padding:.4rem .8rem;border-radius:100px;
+  background:var(--bg-glass);backdrop-filter:blur(12px);border:1px solid var(--border);
+  transition:opacity .6s ease, visibility .6s;
+}
+.flow-dot{
+  width:6px;height:6px;border-radius:50%;background:var(--text-3);opacity:.2;
+  transition:all .5s cubic-bezier(.22,1,.36,1);
+}
+.flow-dot.active{opacity:1;background:var(--gold);box-shadow:0 0 6px var(--gold-glow);transform:scale(1.3)}
+.flow-dot.done{opacity:.5;background:var(--lav)}
+
+/* ── Mobile ── */
+@media(max-width:768px){
+  .chat-layout{flex-direction:column}
+  .chat-side{width:100%;flex-direction:row;padding:.6rem;border-right:none;border-bottom:1px solid var(--border);gap:.6rem;overflow-x:auto}
+  .sc{min-width:130px;padding:.7rem;margin-bottom:0}.s-av{width:40px;height:40px}.s-name{font-size:.88rem}
+  .bt{min-width:200px;max-height:120px}.s-title{font-size:.6rem;letter-spacing:.1em}.cm{padding:.7rem}.m{max-width:90%}
+  .welcome-orb{width:110px;height:110px}.upload-zone{width:160px;height:160px}.char-card{width:290px}
+  .gen-vis{width:180px;height:230px}
+  .rel-c{padding:0 .5rem}
+  .enc-card{padding:1.5rem 1.2rem}.enc-msg{font-size:.88rem;line-height:2}
+  .enc-actions{flex-direction:column;align-items:center}
+  .enc-deck{width:160px;height:224px}
+  .enc-revealed{padding:1.5rem 1.2rem}
+  .enc-belief-opts{gap:.3rem}.enc-bo{font-size:.74rem;padding:.35rem .7rem}
+  .flow-dots{bottom:.8rem;padding:.3rem .6rem}.flow-dot{width:5px;height:5px}
+  .music-toggle{top:.6rem;right:.6rem;width:34px;height:34px}
+}
+@media(max-width:480px){.qc-q{font-size:1rem}.og{gap:.3rem}.o{padding:.35rem .7rem;font-size:.76rem}.qr-btn{font-size:.72rem;padding:.35rem .7rem}}
+
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(180,160,204,.15);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div id="bg"></div>
+<div class="particles" id="particles"></div>
+
+<!-- Language Toggle -->
+<div class="lang-toggle" id="langToggle">
+  <button class="lang-opt active" id="langZh" onclick="setLang('zh')">中文</button>
+  <button class="lang-opt" id="langEn" onclick="setLang('en')">EN</button>
+</div>
+
+<!-- Music Toggle -->
+<div class="music-toggle" id="musicToggle" onclick="toggleMusic()" title="背景音乐">
+  <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+</div>
+
+<!-- Flow Progress Dots -->
+<div class="flow-dots" id="flowDots">
+  <div class="flow-dot active" title="欢迎"></div>
+  <div class="flow-dot" title="照片"></div>
+  <div class="flow-dot" title="画像"></div>
+  <div class="flow-dot" title="生成"></div>
+  <div class="flow-dot" title="角色卡"></div>
+  <div class="flow-dot" title="对话"></div>
+  <div class="flow-dot" title="释放"></div>
+  <div class="flow-dot" title="祝福"></div>
+</div>
+
+<div id="app">
+
+<section class="screen welcome active" id="s-welcome">
+  <div class="welcome-orb"></div>
+  <h1 class="shimmer">Future Self</h1>
+  <p class="welcome-sub" data-i18n="w_sub">遇 见 未 来 的 你</p>
+  <p class="welcome-desc" data-i18n="w_desc">你的理想自我，不是遥远的终点，<br>而是此刻就能对话的陪伴者。<br><br>Ta 带着你想要成为的一切，在这里等你。</p>
+  <button class="btn btn-p" onclick="go('s-upload')"><span data-i18n="w_btn">开始唤醒</span><span>→</span></button>
+</section>
+
+<section class="screen upload" id="s-upload">
+  <div class="upload-title gt" data-i18n="u_title">上传你的照片</div>
+  <p class="upload-hint" data-i18n="u_hint">我们会将它转化为专属的卡通形象</p>
+  <div class="upload-zone" id="uploadZone" onclick="document.getElementById('photoInput').click()">
+    <div class="upload-icon">✦</div>
+    <div class="upload-label" data-i18n="u_label">点击上传照片</div>
+    <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(this)">
+  </div>
+  <div class="style-section">
+    <div class="style-label" data-i18n="u_style">选择卡通化风格</div>
+    <div class="style-grid" id="styleGrid">
+      <div class="style-chip sel" onclick="selStyle('u_s1',this)" data-i18n="u_s1">日系唯美</div>
+      <div class="style-chip" onclick="selStyle('u_s2',this)" data-i18n="u_s2">治愈水彩</div>
+      <div class="style-chip" onclick="selStyle('u_s3',this)" data-i18n="u_s3">梦幻油画</div>
+      <div class="style-chip" onclick="selStyle('u_s4',this)" data-i18n="u_s4">极简线条</div>
+    </div>
+  </div>
+  <div class="upload-actions">
+    <button class="btn btn-g" onclick="go('s-quest')" data-i18n="u_skip">跳过此步</button>
+    <button class="btn btn-p" onclick="go('s-quest')"><span data-i18n="u_next">继续</span> →</button>
+  </div>
+</section>
+
+<section class="screen quest" id="s-quest">
+  <div class="quest-wrap">
+    <div class="quest-head">
+      <div class="quest-cat inner" id="qCat" data-i18n="q_inner">内 在</div>
+      <div class="quest-step" id="qSL">1 / 10</div>
+      <div class="quest-bar"><div class="quest-fill" id="qF" style="width:10%"></div></div>
+    </div>
+    <div class="quest-body" id="qB"></div>
+    <div class="quest-nav">
+      <button class="btn btn-g" id="qPr" onclick="qP()" disabled>← <span data-i18n="q_prev">上一步</span></button>
+      <button class="btn btn-p" id="qNx" onclick="qN()"><span data-i18n="q_next">下一步</span> →</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen gen" id="s-gen">
+  <div class="gen-vis" id="gV">
+    <div class="gen-vis-inner">
+      <div class="gen-core"></div>
+      <div class="gen-ring r1"></div>
+      <div class="gen-ring r2"></div>
+      <div class="gen-ring r3"></div>
+      <div class="gen-particles" id="gP"></div>
+      <div class="gen-sil" id="gSil"></div>
+    </div>
+  </div>
+  <div class="gen-title gt" data-i18n="g_title">正在唤醒未来的你 ...</div>
+  <div class="gen-sub" id="gSub"></div>
+  <div class="gen-kw" id="gK"></div>
+</section>
+
+<section class="screen reveal" id="s-reveal">
+  <div class="char-card">
+    <div class="card-glow"></div>
+    <div class="card-av" id="cardAv">
+      <div class="css-av"><div class="av-aura"></div><div class="av-circle"></div></div>
+    </div>
+    <div class="card-info">
+      <input type="text" class="card-ni" id="cardNI" maxlength="20">
+      <div class="card-hint" data-i18n="r_hint">按回车确认</div>
+      <div class="card-vibe" id="cardV">温柔治愈</div>
+      <div class="card-traits" id="cardT"></div>
+      <button class="btn btn-p" style="width:100%" onclick="go('s-chat')" data-i18n="r_btn">开始对话</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen chat-screen" id="s-chat">
+  <div class="chat-layout">
+    <aside class="chat-side">
+      <div class="sc glass">
+        <div class="s-av" id="sAv"><div class="s-av-d"></div></div>
+        <div class="s-name" id="sN">未来的你</div>
+        <div class="s-label" data-i18n="c_label">理 想 自 我</div>
+      </div>
+      <div style="width:100%">
+        <div class="s-title" data-i18n="c_btitle">信 念 觉 察</div>
+        <div class="bt glass" id="bT"><div class="bi"><span class="bd d"></span><span data-i18n="c_noconv">尚未开始对话</span></div></div>
+      </div>
+    </aside>
+    <main class="chat-main">
+      <div class="ch"><span class="ch-t" data-i18n="c_header">与未来的自己对话</span><span class="bb" id="bB"><span class="bb-d"></span><span data-i18n="c_badge">信念觉察</span></span></div>
+      <div class="cm" id="cM"></div>
+      <div class="ci-area">
+        <div class="ci-wrap">
+          <textarea class="ci" id="cI" rows="1" onkeydown="cK(event)"></textarea>
+          <button class="bs" onclick="send()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<section class="screen release" id="s-release">
+  <div class="rel-c">
+    <div class="rel-icon">🕊</div>
+    <div class="rel-title gt" data-i18n="rel_title">释放转化</div>
+    <div class="rel-sub" data-i18n="rel_sub">让我们温柔地看见并释放这个信念</div>
+    <div class="breath-guide" id="breathGuide"><span class="breath-label" id="breathLabel" data-i18n="breathInit">跟随呼吸...</span></div>
+    <div class="rel-belief" id="relB">"我不够好"</div>
+    <div class="rel-steps" id="relS">
+      <div class="rs glass act" data-step="0" onclick="rC(0)">
+        <div class="rs-num"><span class="dot"></span><span data-i18n="rel_s1n">第一步 · 觉察</span></div>
+        <div class="rs-t" data-i18n="rel_s1t">允许自己感受这个信念</div>
+        <div class="rs-p" data-i18n="rel_s1p">闭上眼睛，感受当你想到「<span id="rB1"></span>」时，身体里升起了什么感觉？它在哪个位置？是紧缩、沉重、还是灼热？不需要改变它，只是看见它。</div>
+        <div class="rs-r" data-i18n="rel_s1r">深呼吸...让这个感觉自然地存在。你不需要和它对抗。正如路易斯·海所说：「我们对自己的每一个想法，都在创造我们的未来。」</div>
+      </div>
+      <div class="rs glass" data-step="1" onclick="rC(1)">
+        <div class="rs-num"><span class="dot"></span><span data-i18n="rel_s2n">第二步 · 接纳</span></div>
+        <div class="rs-t" data-i18n="rel_s2t">你能否允许这个感觉存在？</div>
+        <div class="rs-p" data-i18n="rel_s2p">不是喜欢它，也不是认同它，只是允许它在这里。就像允许天空中有一片云飘过。你能允许这个感觉，就这样存在一会儿吗？</div>
+        <div class="rs-r" data-i18n="rel_s2r">「可以」——当你说出这句话时，注意身体有没有一点点松动。这就是释放正在发生。</div>
+      </div>
+      <div class="rs glass" data-step="2" onclick="rC(2)">
+        <div class="rs-num"><span class="dot"></span><span data-i18n="rel_s3n">第三步 · 释放意愿</span></div>
+        <div class="rs-t" data-i18n="rel_s3t">你愿意放下这个感觉吗？</div>
+        <div class="rs-p" data-i18n="rel_s3p">这不是要求你立刻放下，而是问：你内心深处，是否愿意让这个重量变轻一些？哪怕只是轻一点点？</div>
+        <div class="rs-r" data-i18n="rel_s3r">你的意愿本身就是一股力量。哪怕答案是「我不确定」也完全没关系。一切都在完美的时机里。</div>
+      </div>
+      <div class="rs glass" data-step="3" onclick="rC(3)">
+        <div class="rs-num"><span class="dot"></span><span data-i18n="rel_s4n">第四步 · 释放</span></div>
+        <div class="rs-t" data-i18n="rel_s4t">什么时候？</div>
+        <div class="rs-p" data-i18n="rel_s4p">如果你愿意放下，那么——什么时候呢？你可以选择：现在。深深地呼气，想象这个信念像一团柔和的雾气，随着你的呼气慢慢散开，化作金色的光点融入空气中。</div>
+        <div class="rs-r" data-i18n="rel_s4r">你做到了。每一次有意识的释放，都在改写你细胞里的记忆。</div>
+      </div>
+      <div class="rs glass" data-step="4" onclick="rC(4)">
+        <div class="rs-num"><span class="dot"></span><span data-i18n="rel_s5n">第五步 · 重写</span></div>
+        <div class="rs-t" data-i18n="rel_s5t">植入新的信念</div>
+        <div class="rs-p" id="rwP" data-i18n="rel_s5p">现在，让我们用一个新的信念替代它。感受一下：「我已经足够好了。我的价值不需要证明。」让这句话在心里轻轻回荡。</div>
+        <div class="rs-r" data-i18n="rel_s5r">未来的你已经活在这个信念里了。现在，你也开始了。正如维安娜所说：「你值得拥有你所渴望的一切。」</div>
+      </div>
+    </div>
+    <div class="rel-nav">
+      <button class="btn btn-g" onclick="stopBreath();go('s-chat')" data-i18n="rel_back">返回对话</button>
+      <button class="btn btn-p" onclick="goEnc()"><span data-i18n="rel_done">完成释放</span> ✦</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen enc" id="s-enc">
+  <div class="enc-c">
+
+    <!-- Draw Phase -->
+    <div class="enc-draw" id="encDraw">
+      <div class="enc-draw-label" data-i18n="enc_label">释 放 完 成 · 抽 取 你 的 心 灵 卡 牌</div>
+      <div class="enc-deck" onclick="drawCard()">
+        <div class="enc-deck-shadow"></div>
+        <div class="enc-deck-shadow"></div>
+        <div class="enc-card-back">
+          <div class="enc-back-icon">✦</div>
+          <div class="enc-back-text" data-i18n="enc_draw">点击抽牌</div>
+        </div>
+      </div>
+      <div class="enc-draw-hint" data-i18n="enc_hint">此刻最需要的讯息，正在等你</div>
+    </div>
+
+    <!-- Revealed Phase -->
+    <div class="enc-flip-wrap" id="encFlip">
+      <div class="enc-revealed" id="encCard">
+        <div class="enc-quote-mark">"</div>
+        <div class="enc-msg" id="encMsg"></div>
+        <div class="enc-quote-author" id="encAuthor"></div>
+        <div class="enc-divider"></div>
+        <div class="enc-soul-msg" id="encSoul"></div>
+        <div class="enc-sign" id="encSign"></div>
+      </div>
+
+      <div class="enc-belief-section" id="encBeliefSec">
+        <div class="enc-belief-title" data-i18n="enc_btitle">选 择 你 要 植 入 的 新 信 念</div>
+        <div class="enc-belief-opts" id="encBeliefOpts"></div>
+        <div class="enc-custom-wrap">
+          <input class="enc-custom-in" id="encCustomIn">
+          <button class="enc-custom-add" onclick="addCustomBelief()">+</button>
+        </div>
+        <div class="enc-chosen" id="encChosen" data-prefix="✦ 新信念："></div>
+      </div>
+
+      <div class="enc-date" id="encDate"></div>
+      <div class="enc-actions">
+        <button class="btn btn-g" onclick="returnToNewTopic()" data-i18n="enc_newtopic">探索新话题</button>
+        <button class="btn btn-p" onclick="go('s-welcome')"><span data-i18n="enc_end">结束今天的旅程</span> ✦</button>
+      </div>
+      <div class="enc-released-count" id="encReleased"></div>
+    </div>
+
+  </div>
+</section>
+
+</div>
+
+<script>
+// ═══════════ STATE ═══════════
+const S={screen:'s-welcome',q:0,ans:{},opts:{},photoURL:null,style:'u_s1',name:'',cs:0,rs:0,chatMode:'auto',musicOn:false,lang:'zh',encDrawn:false};
+const SCREEN_ORDER=['s-welcome','s-upload','s-quest','s-gen','s-reveal','s-chat','s-release','s-enc'];
+
+// ═══════════ i18n DICTIONARY ═══════════
+const I18N={
+  zh:{
+    w_sub:'遇 见 未 来 的 你',
+    w_desc:'你的理想自我，不是遥远的终点，<br>而是此刻就能对话的陪伴者。<br><br>Ta 带着你想要成为的一切，在这里等你。',
+    w_btn:'开始唤醒',
+    u_title:'上传你的照片',u_hint:'我们会将它转化为专属的卡通形象',u_label:'点击上传照片',
+    u_style:'选择卡通化风格',u_s1:'日系唯美',u_s2:'治愈水彩',u_s3:'梦幻油画',u_s4:'极简线条',
+    u_skip:'跳过此步',u_next:'继续',
+    q_inner:'内 在',q_outer:'外 在',q_prev:'上一步',q_next:'下一步',q_done:'完成 ✦',q_extra:'额外补充（可选）',
+    g_title:'正在唤醒未来的你 ...',
+    r_placeholder:'给 Ta 取个名字',r_hint:'按回车确认',r_btn:'开始对话',
+    c_label:'理 想 自 我',c_btitle:'信 念 觉 察',c_noconv:'尚未开始对话',c_header:'与未来的自己对话',c_badge:'信念觉察',c_ph:'说点什么吧...',
+    rel_title:'释放转化',rel_sub:'让我们温柔地看见并释放这个信念',
+    rel_s1n:'第一步 · 觉察',rel_s1t:'允许自己感受这个信念',
+    rel_s1p:'闭上眼睛，感受当你想到「<span id="rB1"></span>」时，身体里升起了什么感觉？它在哪个位置？是紧缩、沉重、还是灼热？不需要改变它，只是看见它。',
+    rel_s1r:'深呼吸...让这个感觉自然地存在。你不需要和它对抗。正如路易斯·海所说：「我们对自己的每一个想法，都在创造我们的未来。」',
+    rel_s2n:'第二步 · 接纳',rel_s2t:'你能否允许这个感觉存在？',
+    rel_s2p:'不是喜欢它，也不是认同它，只是允许它在这里。就像允许天空中有一片云飘过。你能允许这个感觉，就这样存在一会儿吗？',
+    rel_s2r:'「可以」——当你说出这句话时，注意身体有没有一点点松动。这就是释放正在发生。',
+    rel_s3n:'第三步 · 释放意愿',rel_s3t:'你愿意放下这个感觉吗？',
+    rel_s3p:'这不是要求你立刻放下，而是问：你内心深处，是否愿意让这个重量变轻一些？哪怕只是轻一点点？',
+    rel_s3r:'你的意愿本身就是一股力量。哪怕答案是「我不确定」也完全没关系。一切都在完美的时机里。',
+    rel_s4n:'第四步 · 释放',rel_s4t:'什么时候？',
+    rel_s4p:'如果你愿意放下，那么——什么时候呢？你可以选择：现在。深深地呼气，想象这个信念像一团柔和的雾气，随着你的呼气慢慢散开，化作金色的光点融入空气中。',
+    rel_s4r:'你做到了。每一次有意识的释放，都在改写你细胞里的记忆。',
+    rel_s5n:'第五步 · 重写',rel_s5t:'植入新的信念',
+    rel_s5p:'现在，让我们用一个新的信念替代它。感受一下：「我已经足够好了。我的价值不需要证明。」让这句话在心里轻轻回荡。',
+    rel_s5r:'未来的你已经活在这个信念里了。现在，你也开始了。正如维安娜所说：「你值得拥有你所渴望的一切。」',
+    rel_back:'返回对话',rel_done:'完成释放',
+    enc_label:'释 放 完 成 · 抽 取 你 的 心 灵 卡 牌',enc_draw:'点击抽牌',enc_hint:'此刻最需要的讯息，正在等你',
+    enc_btitle:'选 择 你 要 植 入 的 新 信 念',enc_custom_ph:'或者写下你自己的信念...',
+    enc_back:'返回对话',enc_end:'结束今天的旅程',enc_journey:'你的地球乐园玩家之旅',enc_bless:'来自未来的{name}的祝福',enc_newbelief:'✦ 新信念：',
+    enc_newtopic:'探索新话题',enc_released:'今天你已释放了 {n} 个限制性信念',
+    gen_subs:['正在整合你的内在画像...','唤醒你的理想能量场...','连接你的未来频率...','生成中，请深呼吸...'],
+    breath:['吸 气 ...','屏 息 ...','呼 气 ...','放 松 ...'],
+    breathInit:'跟随呼吸...',
+    defaultName:'未来的你',
+    pageTitle:'Future Self — 遇见未来的你',
+    musicTip:'背景音乐',
+    dotTips:['欢迎','照片','画像','生成','角色卡','对话','释放','祝福'],
+  },
+  en:{
+    w_sub:'M E E T   Y O U R   F U T U R E   S E L F',
+    w_desc:'Your ideal self is not a distant destination,<br>but a companion you can talk to right now.<br><br>They are here, carrying everything you wish to become.',
+    w_btn:'Begin Awakening',
+    u_title:'Upload Your Photo',u_hint:'We\'ll transform it into your unique avatar',u_label:'Click to upload',
+    u_style:'Choose illustration style',u_s1:'Anime Fine Art',u_s2:'Healing Watercolor',u_s3:'Dreamy Oil Paint',u_s4:'Minimal Line Art',
+    u_skip:'Skip this step',u_next:'Continue',
+    q_inner:'I N N E R',q_outer:'O U T E R',q_prev:'Previous',q_next:'Next',q_done:'Complete ✦',q_extra:'Additional notes (optional)',
+    g_title:'Awakening your future self ...',
+    r_placeholder:'Give them a name',r_hint:'Press Enter to confirm',r_btn:'Start Conversation',
+    c_label:'I D E A L   S E L F',c_btitle:'B E L I E F   A W A R E N E S S',c_noconv:'Conversation not started',c_header:'Talking with your future self',c_badge:'Belief Awareness',c_ph:'Say something...',
+    rel_title:'Release & Transform',rel_sub:'Let\'s gently see and release this belief',
+    rel_s1n:'Step 1 · Awareness',rel_s1t:'Allow yourself to feel this belief',
+    rel_s1p:'Close your eyes. When you think about "<span id="rB1"></span>", what feeling arises in your body? Where is it? Tightness, heaviness, or heat? Don\'t change it — just notice it.',
+    rel_s1r:'Take a deep breath... Let this feeling exist naturally. You don\'t need to fight it. As Louise Hay says: "Every thought we think is creating our future."',
+    rel_s2n:'Step 2 · Acceptance',rel_s2t:'Can you allow this feeling to exist?',
+    rel_s2p:'Not liking it, not agreeing with it — just allowing it to be here. Like allowing a cloud to pass through the sky. Can you let this feeling just be here for a moment?',
+    rel_s2r:'"Yes" — When you say this, notice if your body softens even a little. That\'s the release happening.',
+    rel_s3n:'Step 3 · Willingness',rel_s3t:'Are you willing to let go?',
+    rel_s3p:'This isn\'t asking you to let go right now. It\'s asking: deep inside, are you willing to let this weight become a little lighter? Even just a little?',
+    rel_s3r:'Your willingness itself is a force. Even if the answer is "I\'m not sure," that\'s perfectly okay. Everything in its perfect timing.',
+    rel_s4n:'Step 4 · Release',rel_s4t:'When?',
+    rel_s4p:'If you\'re willing — when? You can choose: now. Breathe out deeply. Imagine this belief as a gentle mist, slowly dissolving with your exhale, turning into golden particles of light melting into the air.',
+    rel_s4r:'You did it. Every conscious release rewrites the memory in your cells.',
+    rel_s5n:'Step 5 · Rewrite',rel_s5t:'Plant a new belief',
+    rel_s5p:'Now, let\'s replace it with something new. Feel this: "I am already enough. My worth needs no proof." Let it echo gently in your heart.',
+    rel_s5r:'Your future self already lives in this belief. Now, you\'ve begun too. As Vianna says: "You deserve everything you desire."',
+    rel_back:'Back to Chat',rel_done:'Complete Release',
+    enc_label:'R E L E A S E   C O M P L E T E  ·  D R A W   Y O U R   C A R D',enc_draw:'Tap to draw',enc_hint:'The message you need most is waiting for you',
+    enc_btitle:'C H O O S E   Y O U R   N E W   B E L I E F',enc_custom_ph:'Or write your own belief...',
+    enc_back:'Back to Chat',enc_end:'End Today\'s Journey',enc_journey:'Your Earth Playground Adventure',enc_bless:'A blessing from your future self, {name}',enc_newbelief:'✦ New Belief: ',
+    enc_newtopic:'Explore New Topic',enc_released:'You\'ve released {n} limiting belief(s) today',
+    gen_subs:['Integrating your inner portrait...','Awakening your ideal energy field...','Connecting to your future frequency...','Generating, take a deep breath...'],
+    breath:['I n h a l e ...','H o l d ...','E x h a l e ...','R e l a x ...'],
+    breathInit:'Follow the breath...',
+    defaultName:'Future You',
+    pageTitle:'Future Self — Meet Your Future Self',
+    musicTip:'Background Music',
+    dotTips:['Welcome','Photo','Profile','Generate','Character','Chat','Release','Blessing'],
+  }
+};
+
+// ═══════════ BILINGUAL DATA ═══════════
+const Q_DATA={
+  zh:[
+    {cat:'inner',icon:'🌿',dim:'性格与心态',q:'理想的你，内在是什么状态？',opts:['从容淡定','温柔坚定','自信果敢','乐观豁达','敏锐细腻','幽默风趣'],ph:'还有什么想补充的？比如面对压力时的反应...',key:'mindset'},
+    {cat:'inner',icon:'✦',dim:'生命 · 灵性状态',q:'理想的你，和自己、和世界的关系是怎样的？',opts:['内心平静安宁','高度觉知当下','与万物有连接感','充满感恩与信任','直觉力很强','能量充沛流动'],ph:'补充你独特的灵性体验或追求...',key:'spiritual'},
+    {cat:'inner',icon:'◈',dim:'人生观',q:'理想的你，相信什么？活在什么信念里？',opts:['一切都是最好的安排','我值得被爱和丰盛','人生是来体验的','我是自己的创造者','困难是成长的礼物','生命自有它的智慧'],ph:'你的核心信念是什么...',key:'lifeview'},
+    {cat:'outer',icon:'💰',dim:'金钱与财富',q:'理想的你，和金钱是什么关系？',opts:['财务自由无压力','金钱自由流向我','消费从容不焦虑','乐于分享与投资','被动收入稳定','享受赚钱的过程'],ph:'描述你理想的财务状态...',key:'money'},
+    {cat:'outer',icon:'🔮',dim:'事业',q:'理想的你，事业是什么样的？',opts:['做热爱的事为生','有影响力和价值感','时间自由可支配','持续学习和成长','领导力与创造力','事业与生活平衡'],ph:'你理想的工作日常是怎样的...',key:'career'},
+    {cat:'outer',icon:'☁',dim:'生活方式',q:'理想的你，日常生活是怎样的？',opts:['规律健康的作息','有品质的慢生活','常旅行看世界','温馨舒适的家','亲近自然','都市与田园兼得'],ph:'描述一个理想的普通工作日...',key:'lifestyle'},
+    {cat:'outer',icon:'🎨',dim:'兴趣爱好',q:'理想的你，热爱做什么？',opts:['阅读与写作','运动与冥想','艺术与音乐','烹饪与美食','摄影与旅行','手工与园艺'],ph:'还有什么让你热爱的事...',key:'hobbies'},
+    {cat:'outer',icon:'✿',dim:'外在形象',q:'理想的你，外在是什么样的？',opts:['健康有活力','气质优雅','穿搭有品味','自然舒服','精致得体','随性自在'],ph:'描述理想中自己的样子...',key:'appearance'},
+    {cat:'outer',icon:'♡',dim:'伴侣关系',q:'理想的你，在亲密关系中是怎样的？',opts:['温柔而有边界','自在表达爱和需求','相互独立又亲密','深度信任与支持','有趣有共同成长','安全感十足'],ph:'补充你理想的伴侣关系状态...',key:'partner'},
+    {cat:'outer',icon:'🏠',dim:'家庭关系',q:'理想的你，与父母、孩子的关系是怎样的？',opts:['和父母和解共处','温暖有爱的家庭','给孩子自由与安全感','家人间坦诚沟通','适度的边界感','彼此支持与尊重'],ph:'描述理想的家庭氛围...',key:'family'},
+  ],
+  en:[
+    {cat:'inner',icon:'🌿',dim:'Personality & Mindset',q:'What is the inner state of your ideal self?',opts:['Calm & composed','Gentle but firm','Confident & bold','Optimistic & open','Perceptive & sensitive','Humorous & witty'],ph:'Anything else? e.g. how you respond to pressure...',key:'mindset'},
+    {cat:'inner',icon:'✦',dim:'Spiritual State',q:'How does your ideal self relate to yourself and the world?',opts:['Inner peace & calm','Highly present','Connected to all things','Full of gratitude & trust','Strong intuition','Abundant energy flow'],ph:'Describe your unique spiritual experience...',key:'spiritual'},
+    {cat:'inner',icon:'◈',dim:'Life Philosophy',q:'What does your ideal self believe in?',opts:['Everything happens for a reason','I deserve love & abundance','Life is for experiencing','I create my own reality','Challenges are gifts','Life has its own wisdom'],ph:'What is your core belief...',key:'lifeview'},
+    {cat:'outer',icon:'💰',dim:'Money & Wealth',q:'What is your ideal self\'s relationship with money?',opts:['Financial freedom','Money flows to me easily','Spending without anxiety','Generous & investing','Stable passive income','Enjoying the process'],ph:'Describe your ideal financial state...',key:'money'},
+    {cat:'outer',icon:'🔮',dim:'Career',q:'What does your ideal career look like?',opts:['Doing what I love','Impact & meaning','Time freedom','Continuous growth','Leadership & creativity','Work-life balance'],ph:'Describe your ideal work day...',key:'career'},
+    {cat:'outer',icon:'☁',dim:'Lifestyle',q:'What does your ideal daily life look like?',opts:['Healthy routine','Quality slow living','Traveling the world','Cozy warm home','Close to nature','City & countryside both'],ph:'Describe an ideal ordinary day...',key:'lifestyle'},
+    {cat:'outer',icon:'🎨',dim:'Interests & Hobbies',q:'What does your ideal self love doing?',opts:['Reading & writing','Sports & meditation','Art & music','Cooking & dining','Photography & travel','Crafts & gardening'],ph:'What else excites you...',key:'hobbies'},
+    {cat:'outer',icon:'✿',dim:'Appearance',q:'What does your ideal self look like externally?',opts:['Healthy & vibrant','Elegant presence','Stylish dressing','Natural & comfortable','Polished & refined','Relaxed & free'],ph:'Describe how your ideal self looks...',key:'appearance'},
+    {cat:'outer',icon:'♡',dim:'Relationships',q:'How is your ideal self in intimate relationships?',opts:['Gentle with boundaries','Expressing love freely','Independent yet intimate','Deep trust & support','Fun & growing together','Fully secure'],ph:'Describe your ideal relationship...',key:'partner'},
+    {cat:'outer',icon:'🏠',dim:'Family',q:'How does your ideal self relate to family?',opts:['At peace with parents','Warm loving family','Freedom & safety for kids','Open communication','Healthy boundaries','Mutual support & respect'],ph:'Describe your ideal family atmosphere...',key:'family'},
+  ]
+};
+
+const SCENARIO_DATA={
+  zh:{
+    default:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'最近工作压力很大，总觉得自己不够好，怎么努力都达不到标准...'},
+      {t:'bot',tx:'我记得那段时间。每天醒来就有一块石头压在胸口，觉得自己怎么做都不够。那种感觉我太熟悉了。'},
+      {t:'bot',tx:'说这些的时候，你的身体有什么感觉？是胸口紧紧的？还是胃那里有什么？'},
+      {t:'user',tx:'胸口...就是觉得很闷，很沉重，好像永远喘不上气。'},
+      {t:'bot',tx:'嗯，我记得那种闷。好像有人在胸口放了一块石头，而你却以为这是正常的重量。'},
+      {t:'bot',tx:'我想温柔地问你：<span class="hl">「我不够好」</span>——这个声音，它是从什么时候开始住在你心里的？',b:0},
+      {t:'user',tx:'好像从小就有...必须做到最好，不然就觉得自己不行。'},
+      {t:'bot',tx:'路易斯·海说过：<span class="hl">「我们在童年学到的信念，会在成年后继续创造相同的体验。」</span>这个"必须完美才值得被爱"的信念，它曾经保护过小时候的你——那个需要用优秀换取安全感的孩子。但现在的你，已经不需要这样了。',b:1},
+      {t:'bot',tx:'在我的世界里——我已经允许自己「够好就好」。不是放弃成长，而是从爱出发，而不是从恐惧出发。我的内心是{trait_summary}的，因为我不再需要用完美来证明自己。'},
+      {t:'bot',tx:'你愿意和我一起做一个释放练习吗？我想带你轻轻地让这个旧信念松动一些。',a:'release'}
+    ],
+    relationship:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'我和伴侣吵架了...ta说我总是把人推开，我觉得只能靠自己。'},
+      {t:'bot',tx:'我记得那种感觉。吵完架之后，一个人坐着，觉得全世界只有自己。好像又一次确认了——"果然没人真的在乎"。'},
+      {t:'bot',tx:'你现在身体里有什么感觉？是空空的？还是有什么情绪堵在那里？'},
+      {t:'user',tx:'就是很孤独...觉得自己不值得被爱，不管怎样努力都留不住人。'},
+      {t:'bot',tx:'这份孤独，我以前也跟它住了好久。它其实不是现在才有的，对吗？'},
+      {t:'bot',tx:'我听到你说了一句很重要的话——<span class="hl">「只能靠自己」</span>。这句话你对自己说了多久了？',b:2},
+      {t:'user',tx:'从小吧...爸妈工作忙，很多事情都是自己一个人面对的。'},
+      {t:'bot',tx:'约翰·布雷萧说过：<span class="hl">「当最初的依恋关系无法提供安全感时，孩子会形成"世界不安全"的核心信念。」</span>小时候的你学会了独立，这是你了不起的生存策略。但现在，你不需要再用铠甲把自己裹得这么紧了。',b:9},
+      {t:'bot',tx:'在我的世界里，我已经学会了一件很难但很重要的事——允许自己被看见，允许自己被照顾。在亲密关系中，我是{partner_desc}的。这不是软弱，这是一种更深层的勇气。'},
+      {t:'bot',tx:'你想不想和我一起做一个释放练习？让我们轻轻地松开这层保护壳？',a:'release'}
+    ],
+    money:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'想买的东西总是犹豫好久，觉得自己赚不到什么钱，花钱就有罪恶感...'},
+      {t:'bot',tx:'我太懂了。我曾经连买一杯好咖啡都要在心里算半天——"这个钱值不值得花在自己身上"。'},
+      {t:'bot',tx:'你有没有注意到，你说了一句很有意思的话——"花钱就有罪恶感"。这个罪恶感，是什么时候开始有的？'},
+      {t:'user',tx:'从小家里条件一般，爸妈总说钱不好赚，不能浪费。'},
+      {t:'bot',tx:'嗯。"钱不好赚，不能浪费"——这句话是你从父母那里继承的一个信念。它在那个环境里可能是真实的经验，但它变成了你关于金钱的一个故事。'},
+      {t:'bot',tx:'维安娜·斯蒂博在《希塔疗愈》中提到：<span class="hl">「匮乏信念通常是代际传承——从父母、祖辈的集体意识中继承的信念模式。」</span>你对金钱的恐惧，可能不完全是你自己的——它也是你父母的，甚至是你祖辈的。',b:3},
+      {t:'bot',tx:'在我的世界里，金钱是一种能量——它喜欢流动，喜欢去到不抗拒它的地方。我和金钱的关系是{money_desc}。我已经允许自己轻松地赚，安心地花，因为我值得丰盛的生活。'},
+      {t:'bot',tx:'你愿意和我一起释放这个关于金钱的旧信念吗？',a:'release'}
+    ],
+    health:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'最近身体总是不舒服，又胖了好多，真的很讨厌自己的身体...'},
+      {t:'bot',tx:'我记得那种感觉。每天早上照镜子的时候，眼睛只会盯着自己不满意的地方。好像身体变成了一个需要被修理的东西。'},
+      {t:'bot',tx:'你说"讨厌自己的身体"的时候，身体里是什么感觉？有没有哪个地方缩紧了？'},
+      {t:'user',tx:'胃那里...就是一种厌恶感，觉得自己怎么就控制不了。'},
+      {t:'bot',tx:'嗯，那种对自己的厌恶感，真的很不好受。你不是在控制不了什么，你是在承受太多对自己的苛责。'},
+      {t:'bot',tx:'我想轻轻地问你——<span class="hl">「我的身体不够好」</span>这个信念，你是从什么时候开始相信的？是别人说了什么，还是你自己一直在重复这句话？',b:7},
+      {t:'user',tx:'小时候就被说胖，被笑话。后来就一直觉得自己的身体是个问题。'},
+      {t:'bot',tx:'路易斯·海在《镜子练习》中说：<span class="hl">「你的身体一直在听你说的话。当你批评它，它就会紧缩；当你爱它，它就会绽放。」</span>那些别人对你说的话，你把它们变成了自己的内在声音，每天重复。但那些话从来不是真相。'},
+      {t:'bot',tx:'在我的世界里，我每天醒来会感谢我的身体——感谢它载着我走过每一天，感谢它忠实地运转。现在的我{appearance_desc}，因为我不再和身体对抗，我开始和它对话。'},
+      {t:'bot',tx:'你愿意和我一起做一个释放练习吗？让那个"我的身体不够好"的旧声音，轻轻地离开？',a:'release'}
+    ],
+    career:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'每天上班都好迷茫，不知道自己到底想做什么，觉得什么都做不好...'},
+      {t:'bot',tx:'我记得那种感觉。坐在工位上，感觉灵魂是空的。不是不努力，而是不知道努力的方向在哪里。'},
+      {t:'bot',tx:'现在说到这些，你身体里有什么感觉？是脑子里嗡嗡的？还是胸口有一种空洞？'},
+      {t:'user',tx:'就是觉得好无力...好像不管做什么都不对，也看不到未来。'},
+      {t:'bot',tx:'那种无力感，像是踩在棉花上——使不上劲，也找不到着力点。你不是一个人这样。'},
+      {t:'bot',tx:'我注意到你说了两件事：<span class="hl">「什么都做不好」</span>和<span class="hl">「看不到未来」</span>。第一句是关于价值，第二句是关于希望。它们连在一起就变成了——"既然我做不好，那未来也不会好"。这是一个信念，而不是事实。',b:4},
+      {t:'user',tx:'可能吧...我确实总觉得自己能力不够，不配拥有好的机会。'},
+      {t:'bot',tx:'拜伦·凯蒂说过：<span class="hl">「当我相信自己的想法，我就受苦。当我质疑自己的想法，我就不受苦了。」</span>"我能力不够"——这是一个想法，你能百分之百确定它是真的吗？有没有任何一件事，是你其实做到了，但你选择忽略了？',b:0},
+      {t:'bot',tx:'在我的世界里，我已经不再追问"我到底适合什么"。因为我发现——当我放下对自己的评判，该走的路自然就亮了。现在我的事业是{career_desc}。不是因为找到了答案，而是因为我不再拦住自己。'},
+      {t:'bot',tx:'你要不要和我一起，把这个"我做不好"的旧故事放下？',a:'release'}
+    ],
+    family:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'和爸妈打了个电话，又吵起来了。他们总是否定我的选择，我觉得自己好内疚又好愤怒...'},
+      {t:'bot',tx:'我太熟悉那种感觉了。挂了电话之后，心里同时有好几种情绪在打架——愤怒、内疚、委屈、还有一点点……想被认可的渴望。'},
+      {t:'bot',tx:'你现在身体里最强烈的感觉是哪一种？愤怒多一些还是内疚多一些？'},
+      {t:'user',tx:'内疚吧...觉得自己不该顶嘴，但又忍不住。好像不管怎么做都是错的。'},
+      {t:'bot',tx:'内疚就像一块无形的石头。你明明在保护自己的边界，却反过来责备自己。这太累了。'},
+      {t:'bot',tx:'我听到了一句很关键的话——<span class="hl">「不管怎么做都是错的」</span>。这种感觉，不只是关于这一次打电话，对吗？它好像跟了你很久很久。',b:6},
+      {t:'user',tx:'对...从小就觉得自己是个麻烦。好像我的需求和感受都不重要。'},
+      {t:'bot',tx:'约翰·布雷萧在《回归内在》中写过：<span class="hl">「在不健康的家庭系统中，孩子会学到一个核心信念——\u2018我的存在本身就是个问题\u2019。」</span>但真相是——小时候的你在一个没有被好好回应的环境里，学会了压抑自己。那不是你的错。',b:0},
+      {t:'bot',tx:'在我的世界里，我已经和父母和解了——不是他们改变了，而是我不再需要他们的认可来证明自己。现在我的家庭是{family_desc}的。我的存在不需要被任何人批准。'},
+      {t:'bot',tx:'你想不想和我一起做一个释放？把那个"我的存在是个负担"的旧信念松开一些？',a:'release'}
+    ],
+    comparison:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'刷了一晚上朋友圈，看别人升职、买房、结婚...觉得自己什么都没有，好失败。'},
+      {t:'bot',tx:'我记得那种感觉。夜里躺在床上刷手机，每一条动态都像在提醒你——"看，别人的人生多精彩"。而你越看越空，越空越想看。'},
+      {t:'bot',tx:'你现在身体里是什么感觉？是一种酸酸的刺痛？还是一种沉沉的压力？'},
+      {t:'user',tx:'就是好空虚好焦虑...觉得自己总是落后于别人，追不上。'},
+      {t:'bot',tx:'那种"追不上"的感觉，其实不是关于别人跑得快，而是你相信自己跑得不够快。'},
+      {t:'bot',tx:'我想问你：<span class="hl">「我总是比别人差」</span>——你有没有想过，这个比较的标尺是谁给你的？你在用别人的人生来衡量自己的价值，而这个游戏你永远赢不了。',b:10},
+      {t:'user',tx:'好像确实...从小就被比较，"你看别人家的孩子"。'},
+      {t:'bot',tx:'布琳·布朗说过：<span class="hl">「比较是快乐的窃贼。当我们把自己的内在和别人的外在相比时，我们永远是输的。」</span>你小时候学会了用比较来定位自己的价值——但你看到的"别人的好"只是他们愿意展示的百分之十。',b:0},
+      {t:'bot',tx:'在我的世界里，我已经退出了这场比赛。不是因为我赢了，而是我终于明白——我的道路和别人的道路，根本不在同一条跑道上。我相信{lifeview_desc}，我的生活是{lifestyle_desc}。每个人都有自己的时区。'},
+      {t:'bot',tx:'你愿意和我一起释放这个"总是落后"的旧信念吗？',a:'release'}
+    ],
+    qr:[{text:'最近工作压力很大...',scenario:'default'},{text:'和伴侣的关系让我困扰...',scenario:'relationship'},{text:'总觉得钱不够花...',scenario:'money'},{text:'很讨厌自己的身体...',scenario:'health'},{text:'每天上班好迷茫...',scenario:'career'},{text:'和家人关系好难...',scenario:'family'},{text:'别人都比我好...',scenario:'comparison'}],
+    greeting:'嗨，我是{name}——或者说，我是未来的你。\n\n我现在的生活里有{lifestyle_desc}，内心是{trait_summary}的状态。我带着你想要成为的一切来到这里。\n\n我记得你现在走过的每一段路，因为我曾经也在那里。有什么想聊的吗？什么都可以。',
+    endMsg:'你今天愿意看到这些，本身就是一种力量。很多人一辈子都不曾这样面对自己的内心。我一直在这里。',
+    relPrompt:'准备好了就点击开始：',relBtn:'🕊 开始释放转化',
+    rewriteTpl:'现在，让我们用一个新的信念替代它。感受一下：<br><br>「{belief}」<br><br>让这句话在心里轻轻回荡。感受它在身体里产生的温暖。',
+  },
+  en:{
+    default:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'Work has been really stressful lately. I always feel like I\'m not good enough, no matter how hard I try...'},
+      {t:'bot',tx:'I remember that feeling. Waking up every morning with a weight on my chest, feeling like nothing I did was ever enough. I know it so well.'},
+      {t:'bot',tx:'When you say these things, what do you feel in your body? Is your chest tight? Or is there something in your stomach?'},
+      {t:'user',tx:'My chest... it just feels heavy and suffocating, like I can never catch my breath.'},
+      {t:'bot',tx:'Yes, I remember that heaviness. Like someone placed a stone on your chest, and you thought it was just the normal weight of things.'},
+      {t:'bot',tx:'I want to gently ask you: <span class="hl">"I\'m not good enough"</span> — this voice, when did it first start living inside you?',b:0},
+      {t:'user',tx:'I think since childhood... I always had to be the best, otherwise I felt worthless.'},
+      {t:'bot',tx:'Louise Hay once said: <span class="hl">"The beliefs we learn in childhood continue to create the same experiences in adulthood."</span> This belief that "I must be perfect to be worthy of love" once protected little you — the child who traded excellence for safety. But you don\'t need that armor anymore.',b:1},
+      {t:'bot',tx:'In my world — I\'ve learned to let "good enough" be enough. Not giving up on growth, but growing from love instead of fear. My inner state is {trait_summary}, because I no longer need perfection to prove my worth.'},
+      {t:'bot',tx:'Would you like to do a release exercise with me? I\'d like to gently loosen this old belief.',a:'release'}
+    ],
+    relationship:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'I had a fight with my partner... they said I always push people away. I feel like I can only rely on myself.'},
+      {t:'bot',tx:'I remember that feeling. Sitting alone after the argument, feeling like the whole world is just you. Like confirming once again — "nobody really cares."'},
+      {t:'bot',tx:'What are you feeling in your body right now? Empty? Or is there something stuck inside?'},
+      {t:'user',tx:'Just lonely... feeling like I don\'t deserve to be loved, like no matter what I do, I can\'t keep anyone.'},
+      {t:'bot',tx:'That loneliness — I lived with it for a long time too. It\'s not just from now, is it?'},
+      {t:'bot',tx:'I noticed something important you said — <span class="hl">"I can only rely on myself."</span> How long have you been telling yourself this?',b:2},
+      {t:'user',tx:'Since I was young... my parents were always busy with work, so I had to face things alone.'},
+      {t:'bot',tx:'John Bradshaw said: <span class="hl">"When the primary attachment relationship fails to provide safety, the child forms a core belief that the world is unsafe."</span> As a child, you learned to be independent — that was your brilliant survival strategy. But now, you don\'t need to wrap yourself in armor anymore.',b:9},
+      {t:'bot',tx:'In my world, I\'ve learned something difficult but vital — allowing myself to be seen, allowing myself to be cared for. In my relationships, I\'m {partner_desc}. This isn\'t weakness. It\'s a deeper kind of courage.'},
+      {t:'bot',tx:'Would you like to do a release exercise with me? Let\'s gently loosen that protective shell.',a:'release'}
+    ],
+    money:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'I always hesitate before buying things. I feel like I\'ll never earn enough, and spending makes me feel guilty...'},
+      {t:'bot',tx:'I understand that so well. I used to spend forever debating whether a good cup of coffee was worth spending on myself.'},
+      {t:'bot',tx:'Have you noticed what you just said — "spending makes me feel guilty." When did this guilt start?'},
+      {t:'user',tx:'Growing up, my family didn\'t have much. My parents always said money was hard to earn and shouldn\'t be wasted.'},
+      {t:'bot',tx:'"Money is hard to earn, don\'t waste it" — this is a belief you inherited from your parents. In their reality, it may have been true. But it became a story you tell yourself about money.'},
+      {t:'bot',tx:'Vianna Stibal writes in ThetaHealing: <span class="hl">"Scarcity beliefs are usually generational — inherited from parents and ancestors through collective consciousness."</span> Your fear around money may not be entirely your own — it\'s also your parents\', perhaps even your grandparents\'.',b:3},
+      {t:'bot',tx:'In my world, money is energy — it loves to flow, and it goes where it\'s not resisted. My relationship with money is {money_desc}. I\'ve learned to earn with ease and spend with peace, because I deserve an abundant life.'},
+      {t:'bot',tx:'Would you like to release this old money belief with me?',a:'release'}
+    ],
+    health:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'My body has been feeling awful lately. I\'ve gained so much weight... I really hate my body.'},
+      {t:'bot',tx:'I remember that feeling. Every morning looking in the mirror, eyes locked on everything I didn\'t like. As if my body became a broken thing that needed fixing.'},
+      {t:'bot',tx:'When you say "I hate my body," what do you feel physically? Is there a part of you that tightens up?'},
+      {t:'user',tx:'My stomach... it\'s this feeling of disgust. Like I just can\'t control anything.'},
+      {t:'bot',tx:'That disgust toward yourself — it\'s so painful to carry. You\'re not failing at control. You\'re buried under too much self-criticism.'},
+      {t:'bot',tx:'I want to gently ask — <span class="hl">"my body isn\'t good enough"</span> — when did you start believing this? Did someone say something, or have you been repeating it to yourself?',b:7},
+      {t:'user',tx:'I was called fat as a kid, made fun of. I\'ve always felt like my body was a problem since then.'},
+      {t:'bot',tx:'Louise Hay wrote in Mirror Work: <span class="hl">"Your body is always listening to what you say. When you criticize it, it tightens. When you love it, it blooms."</span> The words others said to you became your inner voice, repeating daily. But those words were never the truth.'},
+      {t:'bot',tx:'In my world, I wake up every day grateful for my body — for carrying me through each day, for faithfully keeping me alive. Now I feel {appearance_desc}, because I stopped fighting my body. I started talking to it.'},
+      {t:'bot',tx:'Would you like to do a release exercise with me? Let that old voice of "my body isn\'t good enough" gently leave?',a:'release'}
+    ],
+    career:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'I feel so lost at work every day. I don\'t know what I really want to do, and I feel like I\'m bad at everything...'},
+      {t:'bot',tx:'I remember that feeling. Sitting at your desk, feeling like your soul is hollow. Not from lack of effort, but from not knowing where to direct it.'},
+      {t:'bot',tx:'When you think about this, what do you notice in your body? Is your mind buzzing? Or is there a void in your chest?'},
+      {t:'user',tx:'Just powerless... like no matter what I do, it\'s wrong. And I can\'t see any future.'},
+      {t:'bot',tx:'That powerlessness — like walking on cotton. No grip, no ground beneath you. You\'re not alone in this.'},
+      {t:'bot',tx:'I noticed you said two things: <span class="hl">"I\'m bad at everything"</span> and <span class="hl">"I can\'t see a future."</span> The first is about worth, the second about hope. Together they create: "Since I can\'t do anything well, the future won\'t be good either." That\'s a belief, not a fact.',b:4},
+      {t:'user',tx:'Maybe... I do always feel like I\'m not capable enough, like I don\'t deserve good opportunities.'},
+      {t:'bot',tx:'Byron Katie said: <span class="hl">"When I believe my thoughts, I suffer. When I question my thoughts, I don\'t suffer."</span> "I\'m not capable enough" — is that absolutely true? Can you think of even one thing you actually accomplished, but chose to overlook?',b:0},
+      {t:'bot',tx:'In my world, I stopped asking "what am I meant for?" Because I found that when I let go of judging myself, the right path just lit up on its own. Now my career is about {career_desc}. Not because I found the answer, but because I stopped blocking myself.'},
+      {t:'bot',tx:'Would you like to release this old story of "I can\'t do anything right" with me?',a:'release'}
+    ],
+    family:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'I called my parents and we ended up fighting again. They always reject my choices. I feel so guilty and so angry at the same time...'},
+      {t:'bot',tx:'I know that feeling so well. After hanging up, there are so many emotions at war inside — anger, guilt, resentment, and underneath it all... a quiet longing to be accepted.'},
+      {t:'bot',tx:'What\'s the strongest feeling in your body right now? More anger, or more guilt?'},
+      {t:'user',tx:'Guilt, I think... I feel like I shouldn\'t have talked back, but I couldn\'t help it. It\'s like no matter what I do, it\'s wrong.'},
+      {t:'bot',tx:'Guilt is like an invisible stone. You were protecting your boundaries, yet somehow you ended up blaming yourself. That\'s exhausting.'},
+      {t:'bot',tx:'I heard something important — <span class="hl">"No matter what I do, it\'s wrong."</span> This feeling isn\'t just about this one phone call, is it? It\'s been with you for a long time.',b:6},
+      {t:'user',tx:'Yeah... I\'ve always felt like I was a bother since I was little. Like my needs and feelings didn\'t matter.'},
+      {t:'bot',tx:'John Bradshaw wrote in Homecoming: <span class="hl">"In dysfunctional family systems, children learn a core belief — \'my very existence is a problem.\'"</span> The truth is — little you was in an environment that didn\'t respond to your needs. You learned to suppress yourself. That was never your fault.',b:0},
+      {t:'bot',tx:'In my world, I\'ve made peace with my parents — not because they changed, but because I no longer need their approval to validate myself. Now my family is {family_desc}. My existence doesn\'t need anyone\'s permission.'},
+      {t:'bot',tx:'Would you like to do a release with me? Let\'s gently loosen that old belief of "my existence is a burden."',a:'release'}
+    ],
+    comparison:[
+      {t:'bot',tx:null},
+      {t:'user',tx:'I spent the whole evening scrolling social media. Everyone\'s getting promoted, buying houses, getting married... I feel like I have nothing. Like a total failure.'},
+      {t:'bot',tx:'I remember that feeling. Lying in bed at night scrolling, every post reminding you — "Look how great everyone else\'s life is." And the more you scroll, the emptier you feel.'},
+      {t:'bot',tx:'What\'s happening in your body right now? A sharp sting? Or a heavy pressure?'},
+      {t:'user',tx:'Just empty and anxious... like I\'m always behind everyone else, and I can\'t catch up.'},
+      {t:'bot',tx:'That "can\'t catch up" feeling — it\'s not really about others being fast. It\'s that you believe you\'re too slow.'},
+      {t:'bot',tx:'Let me ask you: <span class="hl">"I\'m always worse than others"</span> — have you ever wondered who gave you that measuring stick? You\'re using other people\'s lives to measure your own worth. And that\'s a game you can never win.',b:10},
+      {t:'user',tx:'I think so... I was always compared to others growing up. "Look at so-and-so\'s kid."'},
+      {t:'bot',tx:'Brené Brown said: <span class="hl">"Comparison is the thief of joy. When we compare our insides to everyone else\'s outsides, we always lose."</span> As a child, you learned to locate your worth through comparison — but the "good life" you see in others is only the ten percent they choose to show.',b:0},
+      {t:'bot',tx:'In my world, I\'ve dropped out of that race. Not because I won, but because I finally understood — my path and their path aren\'t even on the same track. I believe {lifeview_desc}, and my life is about {lifestyle_desc}. Everyone has their own timeline.'},
+      {t:'bot',tx:'Would you like to release this old belief of "always falling behind" with me?',a:'release'}
+    ],
+    qr:[{text:'Work stress is overwhelming...',scenario:'default'},{text:'My relationship is troubling me...',scenario:'relationship'},{text:'I always feel short on money...',scenario:'money'},{text:'I really hate my body...',scenario:'health'},{text:'I feel so lost at work...',scenario:'career'},{text:'Family relationships are hard...',scenario:'family'},{text:'Everyone else is doing better...',scenario:'comparison'}],
+    greeting:'Hi, I\'m {name} — or rather, I\'m the future you.\n\nMy life now has {lifestyle_desc}, and my inner state is {trait_summary}. I\'m here carrying everything you wish to become.\n\nI remember every step you\'re walking now, because I walked it too. What would you like to talk about? Anything at all.',
+    endMsg:'The fact that you\'re willing to look at these things today — that itself is strength. Most people never face their inner world like this. I\'m always here.',
+    relPrompt:'Tap to begin when you\'re ready:',relBtn:'🕊 Start Release & Transform',
+    rewriteTpl:'Now, let\'s replace it with something new. Feel this:<br><br>"{belief}"<br><br>Let it echo gently in your heart. Feel the warmth it creates inside your body.',
+  }
+};
+
+// ═══════════ BELIEF DATABASE — bilingual ═══════════
+const BDB_DATA={
+  zh:[
+    {id:'worth',pattern:/不够好|不配|不值得|配不上|做得不好|没资格|比不上/,belief:'我不够好',category:'自我价值',source:'路易斯·海认为，这是所有限制性信念的根源。',book:'《生命的重建》路易斯·海',impact:'持续的自我怀疑 · 难以接受赞美 · 过度努力证明自己',rewrite:'我生而完整，我的存在本身就是有价值的。'},
+    {id:'perfect',pattern:/必须.*完美|做到最好|不能出错|不能犯错|达不到|不允许.*失败|标准太高/,belief:'我必须完美才值得被爱',category:'完美主义',source:'布琳·布朗的研究表明，完美主义不是追求卓越，而是恐惧。',book:'《不完美的礼物》布琳·布朗',impact:'拖延 · 害怕开始 · 无法享受过程',rewrite:'我的不完美是美丽的。犯错意味着我在成长。'},
+    {id:'abandon',pattern:/没人.*在乎|会被抛弃|不需要.*帮助|只能靠自己|被丢下|不被需要|没人理|被忽视/,belief:'如果我展示真实的自己，就会被抛弃',category:'被遗弃恐惧',source:'约翰·布雷萧认为，这源于童年期的情感忽视或遗弃经历。',book:'《回归内在》约翰·布雷萧',impact:'过度独立 · 压抑需求 · 回避亲密',rewrite:'真实的我值得被看见和被爱。'},
+    {id:'money',pattern:/不能.*花钱|赚不到|没有钱|穷|钱不够|买不起|浪费|手头紧|经济压力|存不下/,belief:'金钱是稀缺的，丰盛不属于我',category:'匮乏信念',source:'维安娜认为匮乏信念通常是代际传承。',book:'《希塔疗愈》维安娜',impact:'赚钱焦虑 · 消费内疚 · 金钱恐惧',rewrite:'造物主的丰盛是无限的，我值得丰盛自由地流向我。'},
+    {id:'control',pattern:/做不到|学不会|不可能|太难|我不行|无能为力|没办法|改变不了|就这样了/,belief:'我没有能力改变现状',category:'无力感',source:'拜伦·凯蒂指出，我们在相信一个关于自己的故事。',book:'《一念之转》拜伦·凯蒂',impact:'习得性无助 · 回避挑战 · 自我设限',rewrite:'我比我以为的更有力量。'},
+    {id:'catastrophe',pattern:/会失败|最坏|肯定不行|完了|不会好了|没希望|来不及|太晚了|没救了/,belief:'最坏的事一定会发生',category:'灾难化预期',source:'大脑的恐惧模式反复运行同一个剧本。',book:'《希塔疗愈·进阶》维安娜',impact:'持续焦虑 · 过度防御 · 无法活在当下',rewrite:'我信任生命的进程。'},
+    {id:'burden',pattern:/麻烦|拖累|添麻烦|对不起|不应该.*要求|内疚|亏欠|不好意思.*求|打扰/,belief:'我是别人的负担',category:'存在内疚',source:'路易斯·海认为内疚是最无用的情感之一。',book:'《生命的重建》路易斯·海',impact:'过度付出 · 不敢求助 · 自我牺牲',rewrite:'我的存在是礼物。'},
+    {id:'body',pattern:/太胖|太瘦|不好看|丑|身材|长相|外貌|皮肤.*差|颜值|不够.*漂亮/,belief:'我的身体不够好',category:'身体羞耻',source:'身体是心灵的镜子。',book:'《镜子练习》路易斯·海',impact:'身体焦虑 · 回避亲密 · 不敢展示自己',rewrite:'我的身体是灵魂的圣殿。'},
+    {id:'deserve',pattern:/不配.*幸福|幸福.*不属于|好事.*不会|不该.*开心|快乐.*内疚|好事不长久|不敢.*开心/,belief:'我不配拥有幸福',category:'幸福恐惧',source:'潜意识中"受苦才是高尚的"信念。',book:'《希塔疗愈》维安娜',impact:'自我破坏 · 幸福焦虑 · 无法享受当下',rewrite:'我天生就值得幸福。'},
+    {id:'trust',pattern:/不.*信任|被骗|受伤|不敢.*相信|防备|戒心|不想.*靠近|害怕.*亲近|不安全/,belief:'信任别人是危险的',category:'信任创伤',source:'当最初的依恋关系无法提供安全感。',book:'《家庭的秘密》约翰·布雷萧',impact:'人际距离感 · 难以真正亲密',rewrite:'值得信任的人会出现在我的生命中。'},
+    {id:'compare',pattern:/别人.*比.*好|不如.*人家|人家.*怎么|差距|比不过|落后/,belief:'我总是比别人差',category:'比较焦虑',source:'比较是幸福感的扼杀者。',book:'《不完美的礼物》布琳·布朗',impact:'持续焦虑 · 嫉妒 · 动力耗尽',rewrite:'我的道路独一无二。'},
+    {id:'age',pattern:/太老了|年龄.*大|来不及|年纪|已经.*晚|错过.*年龄|黄金.*过了/,belief:'我已经错过了最好的时机',category:'年龄焦虑',source:'路易斯·海在60岁时创办了出版社。',book:'《生命的重建》路易斯·海',impact:'行动拖延 · 放弃梦想',rewrite:'此刻就是最好的时机。'},
+    {id:'lovable',pattern:/没人.*喜欢|不可爱|不讨.*喜欢|让人.*讨厌|不招人.*喜欢|总是.*一个人/,belief:'我不是一个可爱的人',category:'被爱渴望',source:'每个人的本质就是爱。',book:'《全部的你》杨定一',impact:'社交回避 · 讨好型人格 · 孤独感',rewrite:'我的本质就是爱。'},
+    {id:'pleaser',pattern:/不敢拒绝|怕.*不高兴|必须.*满足|委屈自己|迎合|看.*脸色|不好意思拒绝|讨好/,belief:'我必须让所有人满意',category:'讨好型信念',source:'讨好是一种童年生存策略——牺牲自己的需求换取安全感。',book:'《不完美的礼物》布琳·布朗',impact:'边界模糊 · 委屈累积 · 自我消耗',rewrite:'我有权说不。我的需求同样重要。'},
+    {id:'future',pattern:/未来.*怎么办|前途.*迷茫|不知道.*以后|焦虑.*将来|害怕.*未来|万一.*怎么办|没有方向/,belief:'未来是不安全的',category:'未来恐惧',source:'埃克哈特·托利：「焦虑的本质是对尚未发生之事的恐惧。」',book:'《当下的力量》埃克哈特·托利',impact:'持续焦虑 · 无法活在当下 · 过度规划',rewrite:'此刻我是安全的，未来正在温柔地展开。'},
+    {id:'rest',pattern:/不能.*休息|闲下来.*内疚|停不下来|不敢.*放松|休息.*浪费|闲.*焦虑|必须.*忙|偷懒/,belief:'休息是偷懒的表现',category:'休息内疚',source:'持续忙碌是一种社会认同的自我伤害。',book:'《不完美的礼物》布琳·布朗',impact:'身心疲惫 · 无法享受当下 · 慢性压力',rewrite:'休息是创造力的源泉。我值得停下来。'}
+  ],
+  en:[
+    {id:'worth',pattern:/not good enough|not worthy|don't deserve|undeserving|inadequate|not qualified/i,belief:'I\'m not good enough',category:'Self-worth',source:'Louise Hay sees this as the root of all limiting beliefs.',book:'You Can Heal Your Life — Louise Hay',impact:'Self-doubt · Rejecting praise · Overworking to prove worth',rewrite:'I was born whole. My existence itself is valuable.'},
+    {id:'perfect',pattern:/must be perfect|have to be the best|can't make mistakes|can't fail|falling short|too high standards/i,belief:'I must be perfect to be worthy of love',category:'Perfectionism',source:'Brené Brown: perfectionism is not excellence, it\'s fear.',book:'The Gifts of Imperfection — Brené Brown',impact:'Procrastination · Fear of starting · Self-criticism',rewrite:'My imperfections make me beautifully unique.'},
+    {id:'abandon',pattern:/nobody cares|will be abandoned|can only rely on myself|left behind|not needed|ignored|invisible/i,belief:'If I show my true self, I\'ll be abandoned',category:'Abandonment Fear',source:'John Bradshaw: stems from childhood emotional neglect.',book:'Homecoming — John Bradshaw',impact:'Hyper-independence · Suppressed needs · Avoidant attachment',rewrite:'The real me is worthy of being seen and loved.'},
+    {id:'money',pattern:/can't afford|not enough money|broke|poor|too expensive|waste of money|tight budget|financial stress/i,belief:'Money is scarce, abundance isn\'t for me',category:'Scarcity Belief',source:'Vianna: scarcity beliefs are often inherited generationally.',book:'ThetaHealing — Vianna Stibal',impact:'Earning anxiety · Spending guilt · Money fear',rewrite:'The Creator\'s abundance is infinite, and I deserve it.'},
+    {id:'control',pattern:/can't do it|can't learn|impossible|too hard|i can't|helpless|no way|can't change|stuck/i,belief:'I don\'t have the power to change things',category:'Helplessness',source:'Byron Katie: we\'re believing a story about ourselves.',book:'Loving What Is — Byron Katie',impact:'Learned helplessness · Avoiding challenges · Self-limiting',rewrite:'I am more powerful than I realize.'},
+    {id:'catastrophe',pattern:/will fail|worst case|definitely won't work|it's over|no hope|too late|no saving/i,belief:'The worst will always happen',category:'Catastrophizing',source:'The brain\'s fear pattern running the same script.',book:'ThetaHealing Advanced — Vianna Stibal',impact:'Chronic anxiety · Over-defense · Can\'t be present',rewrite:'I trust the process of life.'},
+    {id:'burden',pattern:/burden|drag.*down|trouble|sorry|shouldn't ask|guilty|owe|bother/i,belief:'I am a burden to others',category:'Existential Guilt',source:'Louise Hay: guilt is the most useless emotion.',book:'You Can Heal Your Life — Louise Hay',impact:'Over-giving · Can\'t ask for help · Self-sacrifice',rewrite:'My existence is a gift.'},
+    {id:'body',pattern:/too fat|too thin|ugly|body.*bad|looks.*bad|skin.*bad|not pretty|not attractive/i,belief:'My body is not good enough',category:'Body Shame',source:'The body is a mirror of the mind.',book:'Mirror Work — Louise Hay',impact:'Body anxiety · Avoiding intimacy · Hiding oneself',rewrite:'My body is a temple of my soul.'},
+    {id:'deserve',pattern:/don't deserve.*happiness|happiness.*not.*for me|good things.*won't|shouldn't be happy|guilty.*happy/i,belief:'I don\'t deserve happiness',category:'Happiness Fear',source:'Subconscious belief that suffering is noble.',book:'ThetaHealing — Vianna Stibal',impact:'Self-sabotage · Happiness anxiety · Can\'t enjoy the present',rewrite:'I was born deserving of happiness.'},
+    {id:'trust',pattern:/can't trust|been betrayed|been hurt|afraid to believe|on guard|defensive|afraid.*close|unsafe/i,belief:'Trusting others is dangerous',category:'Trust Wound',source:'When primary attachment fails to provide safety.',book:'Family Secrets — John Bradshaw',impact:'Emotional distance · Control issues · Shallow relationships',rewrite:'Trustworthy people will enter my life.'},
+    {id:'compare',pattern:/others are better|not as good as|how come they|the gap|can't compete|falling behind/i,belief:'I\'m always worse than others',category:'Comparison Anxiety',source:'Comparison is the thief of happiness.',book:'The Gifts of Imperfection — Brené Brown',impact:'Chronic anxiety · Jealousy · Burnout',rewrite:'My path is uniquely mine.'},
+    {id:'age',pattern:/too old|age.*too|too late|missed.*window|past.*prime|biological clock/i,belief:'I\'ve missed the best timing',category:'Age Anxiety',source:'Louise Hay founded her publisher at age 60.',book:'You Can Heal Your Life — Louise Hay',impact:'Procrastination · Giving up dreams',rewrite:'Right now is the perfect time.'},
+    {id:'lovable',pattern:/nobody likes me|not lovable|people.*don't like|annoying|always alone|no friends/i,belief:'I\'m not a lovable person',category:'Lovability',source:'Everyone\'s essence is love.',book:'The Great Stillness — Yang Ding-Yi',impact:'Social avoidance · People-pleasing · Loneliness',rewrite:'My essence is love itself.'},
+    {id:'pleaser',pattern:/can't say no|afraid.*upset|must.*please|sacrifice myself|people.?please|walk on eggshells|hard to refuse/i,belief:'I must make everyone happy',category:'People-Pleasing',source:'People-pleasing is a childhood survival strategy — sacrificing your needs for safety.',book:'The Gifts of Imperfection — Brené Brown',impact:'Blurred boundaries · Accumulated resentment · Self-depletion',rewrite:'I have the right to say no. My needs matter equally.'},
+    {id:'future',pattern:/what.*future|no direction|don't know.*later|anxious.*tomorrow|afraid.*future|what if.*goes wrong|lost.*direction/i,belief:'The future is unsafe',category:'Future Fear',source:'Eckhart Tolle: "Anxiety is fundamentally fear of what has not yet happened."',book:'The Power of Now — Eckhart Tolle',impact:'Chronic anxiety · Can\'t be present · Over-planning',rewrite:'I am safe right now, and the future is gently unfolding.'},
+    {id:'rest',pattern:/can't.*rest|guilty.*relaxing|can't stop|afraid.*slow down|rest.*waste|idle.*anxious|must.*busy|lazy/i,belief:'Resting means I\'m lazy',category:'Rest Guilt',source:'Chronic busyness is a socially accepted form of self-harm.',book:'The Gifts of Imperfection — Brené Brown',impact:'Burnout · Can\'t enjoy the present · Chronic stress',rewrite:'Rest is the source of creativity. I deserve to pause.'}
+  ]
+};
+
+// Cards and belief presets stay the same (already have author names in original language)
+// We add English soul messages
+const CARDS_DATA={
+  zh:[
+    {q:'你不等于你的思想。在思想与思想之间的空隙里，有一片广阔的宁静——那才是真正的你。',a:'埃克哈特·托利',src:'《当下的力量》',soul:'当你觉察到念头不是你的时候，旧的信念就失去了对你的控制。你正在成为那个空隙——那个纯粹的觉知。'},
+    {q:'生命会给你任何对你意识进化最有帮助的体验。',a:'埃克哈特·托利',src:'《新世界》',soul:'今天的这段经历——看见、接纳、释放——正是你的意识在进化的证据。'},
+    {q:'你不需要去寻找自己。你需要做的只是停止假装你是别人。',a:'Mooji 穆吉',src:'开示语录',soul:'所有的限制性信念，都是你无意中穿上的面具。你只需要卸下不属于你的东西。'},
+    {q:'心灵如同天空，思想和情感如同云朵。云来了又去，但天空永远不变。',a:'Mooji 穆吉',src:'开示语录',soul:'你今天释放的那个信念，只是一片飘过的云。你是天空——广阔、包容、永远清澈。'},
+    {q:'臣服，不是放弃，而是不再和生命对抗。',a:'杨定一',src:'《全部的你》',soul:'释放本身就是一种臣服。你不再和那个旧信念对抗，而是轻轻地让它离开。'},
+    {q:'你本来就是完美的。不是变得完美，而是想起你本来就是。',a:'杨定一',src:'《静坐的科学》',soul:'你不需要「修好」自己。你正在做的，只是擦掉遮住光的灰尘。'},
+    {q:'开悟不是得到什么新的东西，而是卸下所有不属于你的。',a:'莫子',src:'觉醒开示',soul:'你今天做的正是这件事——卸下一个不属于你的旧故事。'},
+    {q:'你一直在对自己说的话，最终会成为你的人生体验。',a:'路易斯·海',src:'《生命的重建》',soul:'从这一刻起，你可以选择对自己说不同的话。'},
+    {q:'当我相信我的想法，我就受苦。当我质疑我的想法，我就不受苦了。',a:'拜伦·凯蒂',src:'《一念之转》',soul:'你刚刚质疑并释放了一个让你受苦的想法。这就是自由的开始。'},
+    {q:'你值得拥有你所渴望的一切。造物主的丰盛是无限的。',a:'维安娜',src:'《希塔疗愈》',soul:'宇宙从不吝啬。现在它被释放了，丰盛正在靠近你。'},
+    {q:'脆弱不是软弱。它是我们衡量勇气的最准确方式。',a:'布琳·布朗',src:'《不完美的礼物》',soul:'今天你敢于面对内心最柔软的地方，这是最深层的力量。'},
+    {q:'伤口是光进入你内在的地方。',a:'鲁米',src:'诗集',soul:'你今天释放的那个旧信念，曾经是一道伤口。但正是透过这道伤口，你让光照了进来。'},
+    {q:'你不是大海中的一滴水，你是一滴水中的整个大海。',a:'鲁米',src:'诗集',soul:'你比你以为的更辽阔。'},
+    {q:'你所寻找的也在寻找你。',a:'鲁米',src:'诗集',soul:'你渴望的丰盛、爱和自由，此刻也在向你奔来。'},
+    {q:'你不需要等到痛苦消失才微笑。你可以对着你的痛苦微笑。',a:'一行禅师',src:'《你可以不怕死》',soul:'你今天对那个旧信念微笑了。这本身就是一种深层的治愈。'},
+    {q:'知人者智，自知者明。胜人者有力，自胜者强。',a:'老子',src:'《道德经》',soul:'今天你战胜的是自己心中的一个旧故事。这是最深层的力量。'},
+    {q:'不要试图去理解一切。有时候不理解本身就是一种更深的理解。',a:'Mooji 穆吉',src:'开示语录',soul:'你不需要弄清楚所有事情才能向前走。放下"必须想明白"的执念，答案自然会来。'},
+    {q:'真正的疗愈不是修理，而是回到整体。',a:'杨定一',src:'《全部的你》',soul:'你今天做的不是修复自己的某个"坏掉的"部分——你是在重新记起：你从来都是完整的。'},
+    {q:'念头来了，你看着它，它就走了。你不需要和它战斗。',a:'莫子',src:'觉醒开示',soul:'那些限制性信念就像访客——你不必请它们永远住下来。看着它们，然后让它们离开。'},
+    {q:'如果你认同于一个心理定位，你就不知道你是谁。',a:'埃克哈特·托利',src:'《新世界》',soul:'你不是你的焦虑，不是你的恐惧，不是你的信念。当你能看见它们，你就已经超越了它们。'},
+    {q:'爱自己就是你能给自己的最伟大的礼物。',a:'路易斯·海',src:'《镜子练习》',soul:'每一次你选择善待自己而不是苛责自己，你就在为未来的你铺路。'},
+    {q:'现实永远比你关于它的故事更友善。',a:'拜伦·凯蒂',src:'《一念之转》',soul:'你担心的那些最坏结果——它们大部分从未发生。当你放下故事，就会看见现实其实一直在善待你。'},
+    {q:'当你完全接受「我不知道」，你就会发现一种比知道更深的平静。',a:'Mooji 穆吉',src:'开示语录',soul:'放下必须找到答案的压力。不确定性不是威胁——它是自由的入口。'},
+    {q:'我们对自己的每一个想法，都在创造我们的未来。',a:'路易斯·海',src:'《生命的重建》',soul:'从现在起，你可以有意识地选择对自己说什么。每一个新信念，都在编织你的新未来。'}
+  ],
+  en:[
+    {q:'You are not your thoughts. In the gap between thoughts, there is a vast stillness — that is the real you.',a:'Eckhart Tolle',src:'The Power of Now',soul:'When you realize thoughts aren\'t you, old beliefs lose their grip. You\'re becoming that stillness — pure awareness.'},
+    {q:'Life will give you whatever experience is most helpful for the evolution of your consciousness.',a:'Eckhart Tolle',src:'A New Earth',soul:'Today\'s experience — seeing, accepting, releasing — is evidence of your consciousness evolving.'},
+    {q:'You don\'t need to find yourself. You just need to stop pretending to be someone else.',a:'Mooji',src:'Teachings',soul:'All limiting beliefs are masks you unconsciously wore. You just need to take off what isn\'t yours.'},
+    {q:'The mind is like the sky, and thoughts and feelings are like clouds. Clouds come and go, but the sky never changes.',a:'Mooji',src:'Teachings',soul:'The belief you released today was just a passing cloud. You are the sky — vast, embracing, forever clear.'},
+    {q:'Surrender is not giving up. It is no longer fighting against life.',a:'Yang Ding-Yi',src:'The Great Stillness',soul:'Release itself is a form of surrender. You stopped fighting the old belief and gently let it go.'},
+    {q:'You were already perfect. Not becoming perfect, but remembering you always were.',a:'Yang Ding-Yi',src:'The Science of Meditation',soul:'You don\'t need to "fix" yourself. You\'re just wiping dust off the light that was always there.'},
+    {q:'Enlightenment is not gaining something new, but shedding everything that doesn\'t belong to you.',a:'Mo Zi',src:'Awakening Teachings',soul:'That\'s exactly what you did today — shedding an old story that was never yours.'},
+    {q:'What you say to yourself eventually becomes your life experience.',a:'Louise Hay',src:'You Can Heal Your Life',soul:'From this moment on, you can choose to say different things to yourself.'},
+    {q:'When I believe my thoughts, I suffer. When I question my thoughts, I don\'t suffer.',a:'Byron Katie',src:'Loving What Is',soul:'You just questioned and released a thought that caused suffering. This is the beginning of freedom.'},
+    {q:'You deserve everything you desire. The Creator\'s abundance is infinite.',a:'Vianna Stibal',src:'ThetaHealing',soul:'The universe is never stingy. Now that the old belief is released, abundance is approaching you.'},
+    {q:'Vulnerability is not weakness. It is the most accurate measure of courage.',a:'Brené Brown',src:'The Gifts of Imperfection',soul:'Today you dared to face the softest part of your heart. This is your deepest strength.'},
+    {q:'The wound is the place where the light enters you.',a:'Rumi',src:'Poetry',soul:'The old belief you released was once a wound. But through that wound, you let the light in.'},
+    {q:'You are not a drop in the ocean. You are the entire ocean in a drop.',a:'Rumi',src:'Poetry',soul:'You are vaster than you think.'},
+    {q:'What you seek is seeking you.',a:'Rumi',src:'Poetry',soul:'The abundance, love, and freedom you desire is also rushing toward you right now.'},
+    {q:'You don\'t have to wait until suffering disappears to smile. You can smile at your suffering.',a:'Thich Nhat Hanh',src:'No Death, No Fear',soul:'Today you smiled at that old belief. That itself is a profound form of healing.'},
+    {q:'Knowing others is wisdom; knowing yourself is enlightenment. Conquering others takes force; conquering yourself is true strength.',a:'Lao Tzu',src:'Tao Te Ching',soul:'Today you conquered an old story within yourself. This is the deepest kind of strength.'},
+    {q:'Don\'t try to understand everything. Sometimes not understanding is itself a deeper understanding.',a:'Mooji',src:'Teachings',soul:'You don\'t need to figure everything out before moving forward. Let go of the need to "understand it all" — the answers will come on their own.'},
+    {q:'True healing is not fixing — it is returning to wholeness.',a:'Yang Ding-Yi',src:'The Great Stillness',soul:'What you did today wasn\'t fixing a "broken" part of yourself — you were remembering that you were always whole.'},
+    {q:'A thought comes, you watch it, and it goes. You don\'t need to fight it.',a:'Mo Zi',src:'Awakening Teachings',soul:'Those limiting beliefs are just visitors — you don\'t have to invite them to stay forever. Watch them, then let them leave.'},
+    {q:'If you identify with a mental position, you don\'t know who you are.',a:'Eckhart Tolle',src:'A New Earth',soul:'You are not your anxiety, not your fear, not your beliefs. When you can see them, you\'ve already transcended them.'},
+    {q:'Loving yourself is the greatest gift you can give yourself.',a:'Louise Hay',src:'Mirror Work',soul:'Every time you choose kindness over self-criticism, you\'re paving the road for your future self.'},
+    {q:'Reality is always kinder than the story we tell about it.',a:'Byron Katie',src:'Loving What Is',soul:'Those worst-case scenarios you worried about — most of them never happened. When you drop the story, you\'ll see that reality has always been gentle with you.'},
+    {q:'When you fully accept "I don\'t know," you discover a peace deeper than knowing.',a:'Mooji',src:'Teachings',soul:'Let go of the pressure to find answers. Uncertainty isn\'t a threat — it\'s the doorway to freedom.'},
+    {q:'Every thought we think about ourselves is creating our future.',a:'Louise Hay',src:'You Can Heal Your Life',soul:'From now on, you can consciously choose what you say to yourself. Every new belief is weaving your new future.'}
+  ]
+};
+
+const BELIEF_PRESETS_DATA={
+  zh:{worth:['我生而完整，不需要证明','我的存在本身就是有价值的','我值得被看见和被爱','我是足够好的'],perfect:['我的不完美让我独特而美丽','犯错是成长，不是失败','我允许自己慢慢来','过程比结果更重要'],abandon:['真实的我值得被爱','我值得被温柔对待','表达需求是勇敢的','我可以安全地做自己'],money:['丰盛是我的自然状态','金钱轻松自由地流向我','我值得财务自由','给予和接受同样自然'],control:['我拥有改变的力量','每一小步都在创造奇迹','我比我以为的更有能力','一切皆有可能'],catastrophe:['我信任生命的进程','最好的事正在发生','我有能力应对一切','一切都是最好的安排'],burden:['我的存在是一份礼物','我值得被帮助和支持','我可以安心地接受爱','我不是任何人的负担'],body:['我的身体是灵魂的圣殿','我用爱拥抱我身体的每一寸','我的美是独一无二的','我的身体值得被善待'],deserve:['我天生就值得幸福','快乐是我的天赋权利','我允许自己享受生命','好事会自然地来到我身边'],trust:['值得信任的人会出现在我的生命中','我可以慢慢打开自己','世界是安全的','爱比恐惧更强大'],compare:['每个人的时区不同','我只需要超越昨天的自己','我的道路独一无二','我欣赏自己的每一步成长'],age:['此刻就是最好的时机','我的人生随时可以重新开始','每一天都是新的起点','经历让我更有智慧'],lovable:['我的本质就是爱','我不需要改变什么就值得被爱','我天生就是可爱的','爱会自然地流向我'],pleaser:['我有权说不','我的需求和别人的同样重要','真正爱我的人不会因为我的边界而离开','照顾自己不是自私'],future:['此刻我是安全的','未来正在温柔地展开','我不需要控制一切才能安心','该来的都会在最好的时机到来'],rest:['休息是创造力的源泉','我值得停下来','放松不是偷懒，是充电','我的价值不取决于我有多忙'],_universal:['我是安全的，我是被爱的','我信任生命的完美安排','丰盛和喜悦是我的本质','我允许自己活出最高版本的自己','每一天我都在成为更好的自己','宇宙永远在支持我','我的内在拥有无穷的智慧','一切都在完美地发生着']},
+  en:{worth:['I was born whole, no proof needed','My existence is inherently valuable','I deserve to be seen and loved','I am enough'],perfect:['My imperfections make me unique','Mistakes mean growth, not failure','I allow myself to go slowly','The journey matters more than the destination'],abandon:['The real me deserves love','I deserve gentle treatment','Expressing needs is brave','I can safely be myself'],money:['Abundance is my natural state','Money flows to me with ease','I deserve financial freedom','Giving and receiving are equally natural'],control:['I have the power to change','Every small step creates miracles','I am more capable than I think','Anything is possible'],catastrophe:['I trust the process of life','The best is yet to come','I can handle anything','Everything is in perfect order'],burden:['My existence is a gift','I deserve help and support','I can peacefully receive love','I am no one\'s burden'],body:['My body is a temple of my soul','I embrace every inch of my body with love','My beauty is one of a kind','My body deserves kindness'],deserve:['I was born deserving happiness','Joy is my birthright','I allow myself to enjoy life','Good things naturally find their way to me'],trust:['Trustworthy people will enter my life','I can slowly open myself up','The world is safe','Love is stronger than fear'],compare:['Everyone has their own timeline','I only need to surpass yesterday\'s me','My path is uniquely mine','I appreciate every step of my growth'],age:['Right now is the perfect time','My life can restart any moment','Every day is a new beginning','Experience makes me wiser'],lovable:['My essence is love itself','I deserve love just as I am','I am inherently lovable','Love naturally flows toward me'],pleaser:['I have the right to say no','My needs are just as important as others\'','People who truly love me won\'t leave because of my boundaries','Taking care of myself is not selfish'],future:['I am safe right now','The future is gently unfolding','I don\'t need to control everything to feel at peace','What\'s meant for me will arrive at the perfect time'],rest:['Rest is the source of creativity','I deserve to pause','Relaxing isn\'t laziness, it\'s recharging','My worth isn\'t measured by how busy I am'],_universal:['I am safe, I am loved','I trust life\'s perfect design','Abundance and joy are my nature','I allow myself to live my highest version','Every day I become a better me','The universe always supports me','My inner self holds infinite wisdom','Everything is unfolding perfectly']}
+};
+
+// ═══════════ LANGUAGE-AWARE GETTERS ═══════════
+function L(){return S.lang}
+function t(key){return I18N[L()][key]||key}
+function getQ(){return Q_DATA[L()]}
+function getScenarios(){return SCENARIO_DATA[L()]}
+function getBDB(){return BDB_DATA[L()]}
+function getCards(){return CARDS_DATA[L()]}
+function getPresets(){return BELIEF_PRESETS_DATA[L()]}
+
+// ═══════════ TEMPLATE PERSONALIZATION ═══════════
+function resolveTemplates(tx){
+  if(!tx||typeof tx!=='string')return tx;
+  const zh=L()==='zh';
+  const join=zh?'、':', ';
+  const name=S.name||t('defaultName');
+  // Build resolver map from user profile data
+  const resolvers={
+    '{name}':()=>name,
+    '{trait_summary}':()=>{const v=S.opts.mindset;return v&&v.length?v.slice(0,2).join(join):(zh?'从容自在':'calm and at ease')},
+    '{lifestyle_desc}':()=>{const v=S.opts.lifestyle;return v&&v.length?v.slice(0,2).join(join):(zh?'有品质的生活':'a life of quality')},
+    '{career_desc}':()=>{const v=S.opts.career;return v&&v.length?v.slice(0,2).join(join):(zh?'热爱的事业':'a career I love')},
+    '{money_desc}':()=>{const v=S.opts.money;return v&&v.length?v.slice(0,2).join(join):(zh?'财务自由':'financial freedom')},
+    '{partner_desc}':()=>{const v=S.opts.partner;return v&&v.length?v.slice(0,2).join(join):(zh?'温柔而有边界':'gentle with boundaries')},
+    '{family_desc}':()=>{const v=S.opts.family;return v&&v.length?v.slice(0,2).join(join):(zh?'温暖有爱':'warm and loving')},
+    '{hobbies_desc}':()=>{const v=S.opts.hobbies;return v&&v.length?v.slice(0,2).join(join):(zh?'热爱的事':'things I love')},
+    '{appearance_desc}':()=>{const v=S.opts.appearance;return v&&v.length?v.slice(0,2).join(join):(zh?'健康有活力':'healthy and vibrant')},
+    '{body_desc}':()=>{const v=S.opts.appearance;return v&&v.length?v[0]:(zh?'健康有活力':'healthy and vibrant')},
+    '{lifeview_desc}':()=>{const v=S.opts.lifeview;return v&&v.length?v[0]:(zh?'一切都是最好的安排':'everything happens for a reason')},
+    '{spiritual_desc}':()=>{const v=S.opts.spiritual;return v&&v.length?v.slice(0,2).join(join):(zh?'内心平静':'inner peace')},
+  };
+  let result=tx;
+  for(const[k,fn]of Object.entries(resolvers)){
+    if(result.includes(k))result=result.replaceAll(k,fn());
+  }
+  return result;
+}
+
+// ═══════════ LANGUAGE SWITCHING ═══════════
+function setLang(lang){
+  S.lang=lang;
+  document.getElementById('langZh').classList.toggle('active',lang==='zh');
+  document.getElementById('langEn').classList.toggle('active',lang==='en');
+  document.documentElement.lang=lang==='zh'?'zh-CN':'en';
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    const val=t(key);
+    if(val)el.innerHTML=val;
+  });
+  // Update placeholders
+  document.getElementById('cardNI').placeholder=t('r_placeholder');
+  document.getElementById('cI').placeholder=t('c_ph');
+  document.getElementById('encCustomIn').placeholder=t('enc_custom_ph');
+  // Update enc chosen prefix via data attribute
+  const encChosen=document.getElementById('encChosen');
+  if(encChosen) encChosen.setAttribute('data-prefix', t('enc_newbelief'));
+  // Update page title, tooltips
+  document.title=t('pageTitle');
+  document.getElementById('musicToggle').title=t('musicTip');
+  const tips=t('dotTips');
+  document.querySelectorAll('.flow-dot').forEach((d,i)=>{if(tips[i])d.title=tips[i]});
+  // Re-render questionnaire if on that screen
+  if(S.screen==='s-quest')renderQ();
+}
+
+// ═══════════ PARTICLES ═══════════
+function initP(){const f=document.getElementById('particles');for(let i=0;i<24;i++){const p=document.createElement('div');p.className='particle '+(Math.random()>.5?'g':'l');const sz=Math.random()*3+1;p.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;animation-duration:${Math.random()*20+14}s;animation-delay:${Math.random()*14}s;`;f.appendChild(p)}}
+
+// ═══════════ FLOW DOTS ═══════════
+function updateFlowDots(screenId){
+  const idx=SCREEN_ORDER.indexOf(screenId);if(idx<0)return;
+  document.querySelectorAll('.flow-dot').forEach((d,i)=>{d.classList.remove('active','done');if(i===idx)d.classList.add('active');else if(i<idx)d.classList.add('done')});
+  const fd=document.getElementById('flowDots');if(idx>=5){fd.style.opacity='0';fd.style.visibility='hidden'}else{fd.style.opacity='1';fd.style.visibility='visible'}
+}
+
+// ═══════════ MUSIC — Melodic Healing Music Box ═══════════
+let audioCtx,masterGain,musicNodes=[];
+let melodyTimer,padNodes=[];
+function initAudio(){
+  audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  masterGain=audioCtx.createGain();masterGain.gain.value=0;
+  // Reverb: multi-tap delay for spacious room feel
+  const dry=audioCtx.createGain();dry.gain.value=0.6;
+  masterGain.connect(dry);dry.connect(audioCtx.destination);
+  const taps=[{t:.12,g:.25},{t:.28,g:.18},{t:.47,g:.12},{t:.71,g:.06}];
+  taps.forEach(({t:dt,g:gv})=>{
+    const d=audioCtx.createDelay();d.delayTime.value=dt;
+    const g=audioCtx.createGain();g.gain.value=gv;
+    const f=audioCtx.createBiquadFilter();f.type='lowpass';f.frequency.value=2500;
+    masterGain.connect(d);d.connect(f);f.connect(g);g.connect(audioCtx.destination);
+  });
+  initPad();
+  startMelody();
+}
+// ── Warm pad: very soft sustained chord ──
+function initPad(){
+  // C major 7 voicing: C3 E3 G3 B3 — very quiet, wide stereo
+  const notes=[130.81,164.81,196,246.94];
+  notes.forEach((f,i)=>{
+    const osc=audioCtx.createOscillator(),g=audioCtx.createGain();
+    osc.type='sine';osc.frequency.value=f;g.gain.value=0.022;
+    // Slow vibrato
+    const vib=audioCtx.createOscillator(),vibG=audioCtx.createGain();
+    vib.type='sine';vib.frequency.value=0.15+i*0.05;vibG.gain.value=0.6;
+    vib.connect(vibG);vibG.connect(osc.frequency);vib.start();
+    // Slight stereo spread
+    const pan=audioCtx.createStereoPanner();
+    pan.pan.value=(i-1.5)/2.5;
+    osc.connect(g);g.connect(pan);pan.connect(masterGain);osc.start();
+    musicNodes.push(osc,vib);padNodes.push({osc,gain:g});
+  });
+}
+// ── Music box note: sine + gentle harmonic for warmth ──
+function playNote(freq,startTime,duration,vel){
+  if(!audioCtx)return;
+  const t0=startTime,dur=duration;
+  // Fundamental
+  const osc=audioCtx.createOscillator(),g=audioCtx.createGain();
+  osc.type='sine';osc.frequency.value=freq;
+  // Soft 2nd harmonic for body
+  const osc2=audioCtx.createOscillator(),g2=audioCtx.createGain();
+  osc2.type='sine';osc2.frequency.value=freq*2;
+  // 3rd harmonic — very faint shimmer
+  const osc3=audioCtx.createOscillator(),g3=audioCtx.createGain();
+  osc3.type='sine';osc3.frequency.value=freq*3;
+  // ADSR envelope — music box attack + long decay
+  const attack=0.008,decay=0.3,sustain=vel*0.5,release=dur*0.6;
+  g.gain.setValueAtTime(0,t0);
+  g.gain.linearRampToValueAtTime(vel,t0+attack);
+  g.gain.exponentialRampToValueAtTime(Math.max(sustain,0.001),t0+attack+decay);
+  g.gain.setValueAtTime(sustain,t0+dur-release);
+  g.gain.exponentialRampToValueAtTime(0.001,t0+dur);
+  // Harmonics follow same envelope but quieter
+  g2.gain.setValueAtTime(0,t0);
+  g2.gain.linearRampToValueAtTime(vel*0.15,t0+attack);
+  g2.gain.exponentialRampToValueAtTime(0.001,t0+dur*0.7);
+  g3.gain.setValueAtTime(0,t0);
+  g3.gain.linearRampToValueAtTime(vel*0.06,t0+attack);
+  g3.gain.exponentialRampToValueAtTime(0.001,t0+dur*0.5);
+  osc.connect(g);g.connect(masterGain);
+  osc2.connect(g2);g2.connect(masterGain);
+  osc3.connect(g3);g3.connect(masterGain);
+  osc.start(t0);osc.stop(t0+dur+0.1);
+  osc2.start(t0);osc2.stop(t0+dur+0.1);
+  osc3.start(t0);osc3.stop(t0+dur+0.1);
+}
+// ── Melody engine: pentatonic phrases that feel composed ──
+// C major pentatonic across octaves: C D E G A
+const SCALE={
+  4:[261.63,293.66,329.63,392,440],
+  5:[523.25,587.33,659.25,783.99,880],
+  6:[1046.5,1174.66,1318.51,1567.98,1760]
+};
+// Pre-composed melodic fragments (scale degree indices 0-4)
+const PHRASES=[
+  // Gentle ascending
+  [{d:4,n:0},{d:4,n:2},{d:4,n:4},{d:5,n:1},{d:5,n:0}],
+  // Descending lullaby
+  [{d:5,n:2},{d:5,n:1},{d:5,n:0},{d:4,n:4},{d:4,n:2}],
+  // Floating arpeggio
+  [{d:4,n:0},{d:4,n:2},{d:5,n:0},{d:4,n:4},{d:4,n:2},{d:5,n:1}],
+  // Call and response
+  [{d:5,n:0},{d:5,n:2},{d:5,n:0},{d:4,n:4,r:1},{d:4,n:2},{d:4,n:4},{d:5,n:0}],
+  // Peaceful climb
+  [{d:4,n:2},{d:4,n:4},{d:5,n:0},{d:5,n:2,r:1},{d:5,n:0},{d:4,n:4}],
+  // Dreamy sparse
+  [{d:5,n:0,r:1},{d:5,n:4},{d:5,n:2,r:1},{d:5,n:0}],
+  // Music box twinkle
+  [{d:5,n:2},{d:5,n:4},{d:6,n:0},{d:5,n:4},{d:5,n:2},{d:5,n:0},{d:5,n:1}],
+  // Gentle wave
+  [{d:4,n:4},{d:5,n:0},{d:5,n:2},{d:5,n:0},{d:4,n:4},{d:4,n:2},{d:4,n:4}],
+];
+let lastPhraseIdx=-1;
+function playPhrase(){
+  if(!audioCtx||!S.musicOn)return;
+  // Pick a phrase different from last one
+  let idx;do{idx=Math.floor(Math.random()*PHRASES.length)}while(idx===lastPhraseIdx&&PHRASES.length>1);
+  lastPhraseIdx=idx;
+  const phrase=PHRASES[idx];
+  const tempo=0.45+Math.random()*0.2; // seconds per note (slow, meditative)
+  const baseVel=0.04+Math.random()*0.015;
+  let time=audioCtx.currentTime+0.1;
+  phrase.forEach((note,i)=>{
+    const freq=SCALE[note.d][note.n];
+    const dur=tempo*(note.r?2.2:1.3); // r = rest/held note
+    const vel=baseVel*(0.85+Math.random()*0.3)*(i===0?1.1:1);
+    playNote(freq,time,dur,vel);
+    time+=tempo*(note.r?1.8:1);
+  });
+}
+function startMelody(){
+  clearInterval(melodyTimer);
+  playPhrase();
+  // Schedule next phrase: gap between phrases for breathing space
+  function scheduleNext(){
+    if(!S.musicOn){clearInterval(melodyTimer);return}
+    const gap=3500+Math.random()*4500; // 3.5-8s between phrases
+    melodyTimer=setTimeout(()=>{playPhrase();scheduleNext()},gap);
+  }
+  scheduleNext();
+}
+function toggleMusic(){
+  const btn=document.getElementById('musicToggle');
+  if(!audioCtx)initAudio();if(audioCtx.state==='suspended')audioCtx.resume();
+  S.musicOn=!S.musicOn;btn.classList.toggle('playing',S.musicOn);
+  masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+  masterGain.gain.setTargetAtTime(S.musicOn?0.9:0,audioCtx.currentTime,S.musicOn?1.2:0.6);
+  if(S.musicOn)startMelody();else clearTimeout(melodyTimer);
+}
+
+// ═══════════ NAV ═══════════
+function go(id){
+  const c=document.getElementById(S.screen),tgt=document.getElementById(id);
+  c.classList.add('leaving');
+  setTimeout(()=>{c.classList.remove('active','leaving');c.style.display='none';tgt.classList.add('active');S.screen=id;
+    updateFlowDots(id);
+    if(id==='s-quest')initQ();if(id==='s-gen')initGen();if(id==='s-reveal')initRev();if(id==='s-chat')initChat();},450);
+}
+
+// ═══════════ UPLOAD ═══════════
+function handlePhoto(i){if(!i.files||!i.files[0])return;const r=new FileReader();r.onload=e=>{S.photoURL=e.target.result;const z=document.getElementById('uploadZone');z.classList.add('has-img');const img=document.createElement('img');img.src=S.photoURL;const o=z.querySelector('img');if(o)o.remove();z.appendChild(img)};r.readAsDataURL(i.files[0])}
+function selStyle(v,el){S.style=v;document.querySelectorAll('#styleGrid .style-chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel')}
+
+// ═══════════ QUEST ═══════════
+function initQ(){S.q=0;renderQ()}
+function renderQ(){
+  const qs=getQ(),q=qs[S.q],total=qs.length,b=document.getElementById('qB');
+  const c=document.getElementById('qCat');c.className='quest-cat '+(q.cat==='inner'?'inner':'outer');
+  c.textContent=q.cat==='inner'?t('q_inner'):t('q_outer');
+  document.getElementById('qSL').textContent=`${S.q+1} / ${total}`;
+  document.getElementById('qF').style.width=((S.q+1)/total*100)+'%';
+  document.getElementById('qPr').disabled=S.q===0;
+  const nxSpan=document.querySelector('#qNx [data-i18n]');
+  if(nxSpan)nxSpan.textContent=S.q===total-1?t('q_done'):t('q_next');
+  const so=S.opts[q.key]||[],ev=S.ans[q.key]||'';
+  let h=`<div class="qc active"><div class="qc-icon">${q.icon}</div><div class="qc-dim">${q.dim}</div><div class="qc-q">${q.q}</div><div class="og">`;
+  q.opts.forEach(o=>{h+=`<div class="o ${so.includes(o)?'sel':''}" onclick="tO('${q.key}','${o.replace(/'/g,"\\'")}',this)">${o}</div>`});
+  h+=`</div><div class="qc-extra"><div class="qc-extra-l">${t('q_extra')}</div><textarea class="qc-in" id="qI" placeholder="${q.ph}" oninput="sQ()">${ev}</textarea></div></div>`;
+  const old=b.querySelector('.qc');if(old){old.classList.add('leaving');setTimeout(()=>{b.innerHTML=h},280)}else b.innerHTML=h;
+}
+function tO(k,v,el){if(!S.opts[k])S.opts[k]=[];const a=S.opts[k],i=a.indexOf(v);if(i>-1){a.splice(i,1);el.classList.remove('sel')}else{a.push(v);el.classList.add('sel')}}
+function sQ(){const i=document.getElementById('qI');if(i)S.ans[getQ()[S.q].key]=i.value}
+function qN(){sQ();if(S.q<getQ().length-1){S.q++;renderQ()}else go('s-gen')}
+function qP(){if(S.q>0){sQ();S.q--;renderQ()}}
+
+// ═══════════ GEN ═══════════
+let genSubInterval;
+function initGen(){
+  // Pre-compute vibeKey so buildSil can use correct palette
+  if(!S.vibeKey){
+    const m=S.opts.mindset||[];let vKey='gentle';
+    if(m.length){const f=m[0];if(/自信|Confident/i.test(f))vKey='confident';else if(/从容|Calm/i.test(f))vKey='calm';else if(/幽默|Humor/i.test(f))vKey='playful'}
+    S.vibeKey=vKey;
+  }
+  buildSil();showKw();
+  const sub=document.getElementById('gSub'),msgs=t('gen_subs');
+  let idx=0;sub.textContent=msgs[0];sub.style.opacity='1';
+  clearInterval(genSubInterval);
+  genSubInterval=setInterval(()=>{sub.style.opacity='0';setTimeout(()=>{idx=(idx+1)%msgs.length;sub.textContent=msgs[idx];sub.style.opacity='1'},500)},1200);
+  setTimeout(()=>{clearInterval(genSubInterval);go('s-reveal')},5500);
+}
+function buildSil(){
+  // SVG silhouette — joyful meditation pose, gender-neutral
+  const silC=document.getElementById('gSil');
+  const pal=VIBE_PALETTES[S.vibeKey||'gentle'];
+  const col1=pal?pal.g1:'rgba(201,162,77,.5)';
+  const col2=pal?pal.g2:'rgba(180,160,204,.5)';
+  silC.innerHTML=`<svg viewBox="0 0 120 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="silG" x1="60" y1="0" x2="60" y2="150" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="${col1}"/>
+        <stop offset="100%" stop-color="${col2}"/>
+      </linearGradient>
+      <radialGradient id="auraG" cx="60" cy="55" r="60" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="${col1}" stop-opacity=".15"/>
+        <stop offset="100%" stop-color="${col2}" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <!-- Aura glow behind figure -->
+    <circle cx="60" cy="55" r="58" fill="url(#auraG)"/>
+    <!-- Head — slightly tilted up (joyful) -->
+    <ellipse cx="60" cy="24" rx="12" ry="14" fill="url(#silG)" opacity=".9"/>
+    <!-- Neck -->
+    <path d="M56 37 Q60 40 64 37" stroke="url(#silG)" stroke-width="3" stroke-linecap="round" fill="none" opacity=".6"/>
+    <!-- Torso — relaxed, slightly open chest -->
+    <path d="M60 40 C48 44 40 54 40 68 C40 78 44 84 48 88 L60 92 L72 88 C76 84 80 78 80 68 C80 54 72 44 60 40Z" fill="url(#silG)" opacity=".7"/>
+    <!-- Left arm — raised gently outward & up, palm open -->
+    <path d="M42 52 C36 48 26 38 20 30 C18 27 16 28 15 30" stroke="url(#silG)" stroke-width="4.5" stroke-linecap="round" fill="none" opacity=".6"/>
+    <!-- Left palm — small open hand -->
+    <circle cx="14" cy="28" r="3.5" fill="url(#silG)" opacity=".5"/>
+    <!-- Right arm — raised gently outward & up, palm open -->
+    <path d="M78 52 C84 48 94 38 100 30 C102 27 104 28 105 30" stroke="url(#silG)" stroke-width="4.5" stroke-linecap="round" fill="none" opacity=".6"/>
+    <!-- Right palm -->
+    <circle cx="106" cy="28" r="3.5" fill="url(#silG)" opacity=".5"/>
+    <!-- Crossed legs — lotus position -->
+    <path d="M48 88 C44 94 34 100 28 104 C22 108 22 112 26 112 C34 112 44 108 52 104" stroke="url(#silG)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55"/>
+    <path d="M72 88 C76 94 86 100 92 104 C98 108 98 112 94 112 C86 112 76 108 68 104" stroke="url(#silG)" stroke-width="5" stroke-linecap="round" fill="none" opacity=".55"/>
+    <!-- Lotus flower base hint -->
+    <ellipse cx="60" cy="112" rx="30" ry="6" fill="url(#silG)" opacity=".18"/>
+    <!-- Sparkle accents near hands -->
+    <circle cx="12" cy="22" r="1.2" fill="url(#silG)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" repeatCount="indefinite"/></circle>
+    <circle cx="108" cy="22" r="1.2" fill="url(#silG)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="2s" begin=".7s" repeatCount="indefinite"/></circle>
+    <circle cx="60" cy="8" r="1.5" fill="url(#silG)" opacity=".35"><animate attributeName="opacity" values=".15;.5;.15" dur="2.5s" begin=".3s" repeatCount="indefinite"/></circle>
+    <!-- Heart center glow -->
+    <circle cx="60" cy="58" r="4" fill="url(#silG)" opacity=".3"><animate attributeName="r" values="3;5;3" dur="3s" repeatCount="indefinite"/><animate attributeName="opacity" values=".2;.45;.2" dur="3s" repeatCount="indefinite"/></circle>
+  </svg>`;
+  // Orbiting particles — continuous gentle orbiters around silhouette
+  const pC=document.getElementById('gP');pC.innerHTML='';
+  for(let i=0;i<12;i++){
+    const d=document.createElement('div');
+    const sz=Math.random()*3.5+1.5;
+    const radius=65+Math.random()*45;
+    const dur=3+Math.random()*4;
+    const delay=Math.random()*dur;
+    d.className='sp '+(Math.random()>.4?'g':'l')+' orbit';
+    d.style.cssText=`width:${sz}px;height:${sz}px;left:50%;top:45%;--radius:${radius}px;animation-duration:${dur}s;animation-delay:-${delay}s;`;
+    pC.appendChild(d);
+  }
+  // Converging particles — fly inward from edges
+  for(let i=0;i<20;i++){
+    const d=document.createElement('div');
+    const sz=Math.random()*4+1.5;
+    const angle=Math.random()*Math.PI*2;
+    const dist=130+Math.random()*80;
+    const sx=Math.cos(angle)*dist;
+    const sy=Math.sin(angle)*dist;
+    const ex=(Math.random()-.5)*20;
+    const ey=(Math.random()-.5)*30-15;
+    const dur=1.8+Math.random()*1.5;
+    const delay=Math.random()*3;
+    d.className='sp '+(Math.random()>.35?'g':'l')+' converge';
+    d.style.cssText=`width:${sz}px;height:${sz}px;left:50%;top:45%;--sx:${sx}px;--sy:${sy}px;--ex:${ex}px;--ey:${ey}px;animation-duration:${dur}s;animation-delay:${delay}s;animation-iteration-count:infinite;`;
+    pC.appendChild(d);
+  }
+}
+function showKw(){
+  const c=document.getElementById('gK');c.innerHTML='';let kw=[];
+  Object.keys(S.opts).forEach(k=>{kw.push(...S.opts[k])});
+  Object.values(S.ans).forEach(v=>{if(v.trim()){kw.push(...v.replace(/[，。、！？\s]+/g,'|').split('|').filter(s=>s.length>=2&&s.length<=8))}});
+  kw=[...new Set(kw)].slice(0,9);if(!kw.length)kw=L()==='zh'?['从容','丰盛','自在','热爱','平静','觉知']:['Calm','Abundant','Free','Passionate','Peaceful','Aware'];
+  kw.forEach((k,i)=>{const s=document.createElement('span');s.className='kw';s.textContent=k;s.style.animationDelay=(1+i*.22)+'s';c.appendChild(s)})
+}
+
+// ═══════════ REVEAL ═══════════
+const VIBE_PALETTES={
+  gentle:{grad:'linear-gradient(135deg,#C9A24D,#B4A0CC)',g1:'rgba(201,162,77,.35)',g2:'rgba(180,160,204,.35)'},
+  confident:{grad:'linear-gradient(135deg,#D4945A,#C9A24D)',g1:'rgba(212,148,90,.4)',g2:'rgba(201,162,77,.3)'},
+  calm:{grad:'linear-gradient(135deg,#8B9DC3,#B4A0CC)',g1:'rgba(139,157,195,.35)',g2:'rgba(180,160,204,.4)'},
+  playful:{grad:'linear-gradient(135deg,#E8B4B8,#D4C5A9)',g1:'rgba(232,180,184,.4)',g2:'rgba(212,197,169,.3)'}
+};
+function initRev(){
+  if(S.photoURL){document.getElementById('cardAv').innerHTML=`<img src="${S.photoURL}">`}
+  const m=S.opts.mindset||[];let v=L()==='zh'?'温柔治愈':'Gentle Healing';let vKey='gentle';
+  if(m.length){const first=m[0];if(/自信|Confident/i.test(first)){v=L()==='zh'?'自信飒爽':'Confident Bold';vKey='confident'}else if(/从容|Calm/i.test(first)){v=L()==='zh'?'沉稳智慧':'Calm Wisdom';vKey='calm'}else if(/幽默|Humor/i.test(first)){v=L()==='zh'?'灵动自由':'Playful Free';vKey='playful'}}
+  document.getElementById('cardV').textContent=v;
+  S.vibeKey=vKey;
+  // Apply vibe palette to avatar
+  const pal=VIBE_PALETTES[vKey],avEl=document.querySelector('.av-circle');
+  if(avEl&&!S.photoURL){avEl.style.setProperty('--av-grad',pal.grad);avEl.style.setProperty('--av-glow1',pal.g1);avEl.style.setProperty('--av-glow2',pal.g2)}
+  const tc=document.getElementById('cardT');let tr=[];Object.keys(S.opts).forEach(k=>{tr.push(...(S.opts[k]||[]))});
+  tr=[...new Set(tr)].slice(0,8);if(!tr.length)tr=L()==='zh'?['从容','丰盛','自在','热爱']:['Calm','Abundant','Free','Passionate'];
+  tc.innerHTML=tr.map(t=>`<span class="card-t">${t}</span>`).join('');
+  const ni=document.getElementById('cardNI');ni.value='';ni.placeholder=t('r_placeholder');
+  ni.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();S.name=ni.value.trim()||t('defaultName');ni.blur()}};
+  ni.onblur=()=>{S.name=ni.value.trim()||t('defaultName')}
+}
+
+// ═══════════ CHAT ═══════════
+let DC,beliefs=[],chatDone=false,chatScenarioKey='default',totalReleased=0;
+
+function initChat(){
+  if(chatDone)return;chatDone=true;
+  const name=S.name||t('defaultName');
+  document.getElementById('sN').textContent=name;
+  if(S.photoURL){document.getElementById('sAv').innerHTML=`<img src="${S.photoURL}">`}
+  else if(S.vibeKey){const pal=VIBE_PALETTES[S.vibeKey],sav=document.getElementById('sAv');if(sav&&pal){sav.style.background=pal.grad;sav.style.boxShadow=`0 0 16px ${pal.g1},0 0 16px ${pal.g2}`}}
+  const scData=getScenarios();
+  DC=scData[chatScenarioKey];
+  DC[0].tx=resolveTemplates(scData.greeting);
+  document.getElementById('cM').innerHTML='';S.cs=0;beliefs=[];
+  aBot(DC[0].tx,0);
+  setTimeout(()=>{addQuickReplies(scData.qr)},1800);
+}
+
+function fadeRemoveQR(cb){
+  const qr=document.getElementById('quickReplies');
+  if(!qr){if(cb)cb();return}
+  qr.classList.add('fade-out');
+  setTimeout(()=>{qr.remove();if(cb)cb()},350);
+}
+
+function addQuickReplies(options){
+  const c=document.getElementById('cM'),wrap=document.createElement('div');
+  wrap.className='quick-replies';wrap.id='quickReplies';
+  options.forEach(opt=>{
+    const btn=document.createElement('button');btn.className='qr-btn';btn.textContent=opt.text;
+    btn.onclick=()=>{
+      fadeRemoveQR(()=>{
+        if(opt.scenario&&opt.scenario!==chatScenarioKey){
+          chatScenarioKey=opt.scenario;DC=getScenarios()[chatScenarioKey];
+          DC[0].tx=resolveTemplates(getScenarios().greeting);
+        }
+        aUser(opt.text);S.cs=1;setTimeout(()=>prog(),600);
+      });
+    };wrap.appendChild(btn);
+  });c.appendChild(wrap);c.scrollTop=c.scrollHeight;
+}
+
+function getTimeStr(){const n=new Date(),h=n.getHours(),m=n.getMinutes().toString().padStart(2,'0');if(L()==='en'){const h12=h%12||12;return `${h12}:${m} ${h>=12?'PM':'AM'}`}return `${h.toString().padStart(2,'0')}:${m}`}
+function bAv(){return S.photoURL?`<div class="ma ba"><img src="${S.photoURL}"></div>`:`<div class="ma ba"><div class="ma-d"></div></div>`}
+
+function aBot(tx,d){
+  tx=resolveTemplates(tx);
+  const c=document.getElementById('cM');
+  fadeRemoveQR();
+  const tmp=document.createElement('div');tmp.className='m bot';tmp.style.animationDelay='0s';
+  tmp.innerHTML=`${bAv()}<div class="mb"><div class="tp"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;
+  c.appendChild(tmp);c.scrollTop=c.scrollHeight;
+  const dur=Math.min(1100+d,800+tx.length*12);
+  setTimeout(()=>{tmp.remove();const m=document.createElement('div');m.className='m bot';
+    m.innerHTML=`${bAv()}<div><div class="mb">${tx.replace(/\n/g,'<br>')}</div><div class="m-time">${getTimeStr()}</div></div>`;c.appendChild(m);c.scrollTop=c.scrollHeight},dur);
+}
+function aUser(tx){
+  const c=document.getElementById('cM');fadeRemoveQR();
+  const m=document.createElement('div');m.className='m user';
+  m.innerHTML=`<div class="ma ua"></div><div><div class="mb">${tx}</div><div class="m-time">${getTimeStr()}</div></div>`;c.appendChild(m);c.scrollTop=c.scrollHeight;
+}
+
+function aRBtn(){
+  const c=document.getElementById('cM'),scData=getScenarios();
+  const m=document.createElement('div');m.className='m bot';
+  m.innerHTML=`${bAv()}<div style="display:flex;flex-direction:column;gap:.4rem"><div class="mb">${scData.relPrompt}</div><button class="btn btn-p" onclick="startRel()" style="font-size:.8rem;padding:.5rem 1.2rem">${scData.relBtn}</button></div>`;
+  setTimeout(()=>{c.appendChild(m);c.scrollTop=c.scrollHeight},500);
+}
+
+let autoPlaying=false;
+function send(){
+  const i=document.getElementById('cI'),txt=i.value.trim();
+  if(!txt&&S.cs<DC.length&&!autoPlaying){prog();return}
+  if(txt&&!autoPlaying){
+    aUser(txt);i.value='';i.style.height='auto';
+    getBDB().forEach(b=>{if(b.pattern.test(txt)&&!beliefs.find(x=>x.id===b.id)){setTimeout(()=>{document.getElementById('bB').classList.add('vis');aBT(b)},1500)}});
+    setTimeout(()=>prog(),500);
+  }
+}
+function prog(){
+  S.cs++;if(S.cs>=DC.length){autoPlaying=false;aBot(getScenarios().endMsg,0);return}
+  const s=DC[S.cs];
+  if(s.t==='user'){autoPlaying=true;setTimeout(()=>{aUser(s.tx);setTimeout(()=>{autoPlaying=false;prog()},900)},400)}
+  else{
+    autoPlaying=true;
+    if(typeof s.b==='number'){const bl=getBDB()[s.b];setTimeout(()=>{document.getElementById('bB').classList.add('vis');aBT(bl)},700)}
+    aBot(s.tx,0);
+    if(s.a==='release'){setTimeout(()=>{autoPlaying=false;aRBtn()},2400);return}
+    if(S.cs+1<DC.length&&DC[S.cs+1].t==='bot'){setTimeout(()=>{autoPlaying=false;prog()},2600)}
+    else{autoPlaying=false}
+  }
+}
+function aBT(b){
+  if(beliefs.find(x=>x.id===b.id))return;
+  beliefs.push(b);const tr=document.getElementById('bT');
+  tr.innerHTML=beliefs.map(bl=>`<div class="bi"><span class="bd a"></span><span>${bl.category}${L()==='zh'?'：':': '}${bl.belief}</span></div><div class="b-src">${bl.source.slice(0,60)}...</div><div class="b-book">${bl.book}</div><div class="b-impact">${bl.impact}</div>`).join('');
+}
+function cK(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}const el=e.target;setTimeout(()=>{el.style.height='auto';el.style.height=Math.min(el.scrollHeight,96)+'px'},0)}
+
+// ═══════════ SEDONA ═══════════
+let breathInterval;
+function stopBreath(){clearInterval(breathInterval);const g=document.getElementById('breathGuide');if(g)g.classList.remove('active');const l=document.getElementById('breathLabel');if(l)l.textContent=t('breathInit')}
+function startRel(){
+  if(beliefs.length>0){const b=beliefs[beliefs.length-1],scData=getScenarios();
+    document.getElementById('relB').textContent=`"${b.belief}"`;
+    const rB1=document.getElementById('rB1');if(rB1)rB1.textContent=b.belief;
+    const rwP=document.getElementById('rwP');
+    if(rwP)rwP.innerHTML=scData.rewriteTpl.replace('{belief}',b.rewrite);
+  }
+  S.rs=0;uRS();go('s-release');startBreathGuide();
+}
+function startBreathGuide(){
+  const guide=document.getElementById('breathGuide'),label=document.getElementById('breathLabel');
+  guide.classList.add('active');
+  const phases=t('breath');let phase=0;
+  clearInterval(breathInterval);
+  breathInterval=setInterval(()=>{label.textContent=phases[phase%4];phase++},1500);
+}
+function rC(i){if(i<=S.rs+1){S.rs=i;uRS()}}
+function uRS(){document.querySelectorAll('.rs').forEach((el,i)=>{el.classList.remove('act','done');if(i===S.rs)el.classList.add('act');else if(i<S.rs)el.classList.add('done')})}
+
+// ═══════════ ENCOURAGEMENT — Card Draw ═══════════
+function goEnc(){
+  totalReleased++;
+  document.getElementById('encDraw').style.display='block';
+  document.getElementById('encDraw').style.opacity='1';
+  document.getElementById('encDraw').style.transform='none';
+  document.getElementById('encFlip').classList.remove('active');
+  S.encDrawn=false;
+  stopBreath();
+  const rc=document.getElementById('encReleased');
+  if(rc)rc.textContent=t('enc_released').replace('{n}',totalReleased);
+  go('s-enc');
+}
+
+function returnToNewTopic(){
+  chatDone=false;chatScenarioKey='default';beliefs=[];S.cs=0;autoPlaying=false;
+  document.getElementById('bB').classList.remove('vis');
+  document.getElementById('bT').innerHTML='';
+  go('s-chat');
+}
+
+function drawCard(){
+  if(S.encDrawn)return;S.encDrawn=true;
+  const cards=getCards(),card=cards[Math.floor(Math.random()*cards.length)];
+  const b=beliefs.length>0?beliefs[beliefs.length-1]:null;
+  const name=S.name||t('defaultName');
+  document.getElementById('encMsg').textContent=card.q;
+  document.getElementById('encAuthor').textContent=`—— ${card.a}  ${card.src}`;
+  document.getElementById('encSoul').textContent=card.soul;
+  document.getElementById('encSign').textContent=`—— ${resolveTemplates(t('enc_bless'))}`;
+  const now=new Date();
+  const dateStr=L()==='zh'?`${now.getFullYear()} 年 ${now.getMonth()+1} 月 ${now.getDate()} 日`:`${now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}`;
+  document.getElementById('encDate').textContent=dateStr+' · '+t('enc_journey');
+  // Belief selection
+  const optsCont=document.getElementById('encBeliefOpts'),presets=getPresets();
+  optsCont.innerHTML='';
+  let opts=presets._universal;
+  if(b&&presets[b.id])opts=presets[b.id];
+  opts.forEach(p=>{const el=document.createElement('div');el.className='enc-bo';el.textContent=p;el.onclick=()=>selectEncBelief(p,el);optsCont.appendChild(el)});
+  document.getElementById('encChosen').style.display='none';
+  document.getElementById('encCustomIn').value='';document.getElementById('encCustomIn').placeholder=t('enc_custom_ph');
+  // Animate
+  const deck=document.getElementById('encDraw');
+  deck.style.transition='opacity .5s, transform .5s';deck.style.opacity='0';deck.style.transform='scale(.95)';
+  setTimeout(()=>{deck.style.display='none';const flip=document.getElementById('encFlip');flip.classList.add('active');
+    flip.querySelectorAll('.enc-revealed, .enc-belief-section, .enc-date, .enc-actions').forEach((el,i)=>{el.classList.remove('ef');el.classList.add('ef');el.style.animationDelay=(i*0.3)+'s'})},500);
+}
+
+function selectEncBelief(text,el){document.querySelectorAll('.enc-bo').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');const c=document.getElementById('encChosen');c.textContent=text;c.style.display='block'}
+function addCustomBelief(){const input=document.getElementById('encCustomIn'),text=input.value.trim();if(!text)return;document.querySelectorAll('.enc-bo').forEach(b=>b.classList.remove('sel'));const c=document.getElementById('encChosen');c.textContent=text;c.style.display='block';input.value=''}
+
+document.addEventListener('DOMContentLoaded',()=>{initP();updateFlowDots('s-welcome');setLang('zh')});
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v67327c56f0bb4ef8b305cae61679db8f1769101564043" integrity="sha512-rdcWY47ByXd76cbCFzznIcEaCN71jqkWBBqlwhF1SY7KubdLKZiEGeP7AyieKZlGP9hbY/MhGrwXzJC/HulNyg==" data-cf-beacon='{"version":"2024.11.0","token":"75124c326cb447fe934cde04713ae013","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
